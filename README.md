@@ -14,6 +14,9 @@
 
 복잡한 KEC 규정(IEC 60364 부합)을 표준화된 코드로 제공하여, 엔지니어들이 엑셀이나 수기로 계산하던 방식을 넘어 **소프트웨어 기반의 자동화된 검증**을 수행할 수 있도록 돕습니다. 이 저장소는 UI가 포함되지 않은 **순수 계산 로직(Pure Logic)** 라이브러리로, 모바일 앱(Flutter)이나 웹 서비스의 백엔드 엔진으로 활용하기에 최적화되어 있습니다.
 
+
+
+ 
 ## ⚡ 주요 기능 (Key Features)
 
 이 라이브러리는 다음과 같은 핵심 전기 계산 모듈을 포함합니다 (예정 포함):
@@ -31,6 +34,9 @@
 * **고장 전류 계산 (Short-circuit Current)**
     * 임피던스 맵(Impedance Map) 기반의 단락 전류 계산 (향후 업데이트)
 
+
+
+  
 ## 📦 설치 방법 (Installation)
 
 이 프로젝트는 현재 개발 초기 단계이므로, Git URL을 통해 의존성을 추가할 수 있습니다. `pubspec.yaml` 파일에 아래 내용을 추가하십시오.
@@ -43,6 +49,10 @@ dependencies:
       ref: main
 
 ```
+
+
+
+  
 ## 🚀 사용 예시 (Usage)
 
 다음은 전압강하를 계산하는 간단한 코드 예시입니다. 설명대로 값을 넣으면 결과를 바로 확인할 수 있습니다.
@@ -77,22 +87,32 @@ void main() {
   }
 }
 ```
-🤝 기여하기 (Contributing)
-OpenKEC는 현업 전기 기술자와 개발자 모두의 참여를 기다립니다. KEC 규정의 해석, 수식 오류 수정, 새로운 기능 제안 등 어떤 형태의 기여도 환영합니다.
 
-이 저장소를 Fork 합니다.
 
-새로운 기능 브랜치를 생성합니다 (git checkout -b feature/NewFeature).
 
-변경 사항을 Commit 합니다 (git commit -m 'Add some NewFeature').
+  
+## 🤝 기여하기 (Contributing)
 
-브랜치에 Push 합니다 (git push origin feature/NewFeature).
+**OpenKEC**는 현업 전기 기술자와 개발자 모두의 참여를 기다립니다.  
+KEC 규정의 해석, 수식 오류 수정, 새로운 계산 모듈 제안 등 어떤 형태의 기여도 환영합니다.
 
-GitHub에서 Pull Request를 생성합니다.
+1. 이 저장소를 **Fork** 합니다.
+2. 새로운 기능 브랜치를 생성합니다 (`git checkout -b feature/NewFeature`).
+3. 변경 사항을 **Commit** 합니다 (`git commit -m 'Add some NewFeature'`).
+4. 브랜치에 **Push** 합니다 (`git push origin feature/NewFeature`).
+5. GitHub에서 **Pull Request**를 생성합니다.
 
-📄 라이선스 (License)
-이 프로젝트는 MIT License 하에 배포됩니다. 자세한 내용은 LICENSE 파일을 참고하십시오.
 
-Disclaimer: 이 소프트웨어의 계산 결과는 참고용이며, 최종 설계 및 시공에 대한 법적 책임은 사용자(엔지니어)에게 있습니다.
 
-Copyright © 2025 OpenKEC Lab. Developed by LeeTech.
+
+  
+## 📄 라이선스 (License)
+
+이 프로젝트는 **MIT License** 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참고하십시오.
+
+**면책 조항 (Disclaimer):**
+이 소프트웨어의 계산 결과는 설계 참고용입니다.   
+최종 전기 설계 및 시공에 대한 법적 책임은 사용자(엔지니어)에게 있으며, 제공자는 이에 대한 책임을 지지 않습니다.
+
+---
+Copyright © 2025 **OpenKEC Lab**. Developed by **LeeTech**.
