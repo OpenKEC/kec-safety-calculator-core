@@ -41,7 +41,7 @@ dependencies:
   kec_safety_calculator_core:
     git:
       url: [https://github.com/OpenKEC/kec-safety-calculator-core.git](https://github.com/OpenKEC/kec-safety-calculator-core.git)
-      ref: main
+      ref: main```
 
 
 ## 🚀 사용 예시 (Usage)
