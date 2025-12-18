@@ -76,3 +76,23 @@ void main() {
     print('❌ 부적합: 케이블 굵기를 선정해 주십시오.');
   }
 }
+```
+🤝 기여하기 (Contributing)
+OpenKEC는 현업 전기 기술자와 개발자 모두의 참여를 기다립니다. KEC 규정의 해석, 수식 오류 수정, 새로운 기능 제안 등 어떤 형태의 기여도 환영합니다.
+
+이 저장소를 Fork 합니다.
+
+새로운 기능 브랜치를 생성합니다 (git checkout -b feature/NewFeature).
+
+변경 사항을 Commit 합니다 (git commit -m 'Add some NewFeature').
+
+브랜치에 Push 합니다 (git push origin feature/NewFeature).
+
+GitHub에서 Pull Request를 생성합니다.
+
+📄 라이선스 (License)
+이 프로젝트는 MIT License 하에 배포됩니다. 자세한 내용은 LICENSE 파일을 참고하십시오.
+
+Disclaimer: 이 소프트웨어의 계산 결과는 참고용이며, 최종 설계 및 시공에 대한 법적 책임은 사용자(엔지니어)에게 있습니다.
+
+Copyright © 2025 OpenKEC Lab. Developed by LeeTech.
