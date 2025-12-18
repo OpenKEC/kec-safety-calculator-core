@@ -33,12 +33,11 @@
 
 ## 📦 설치 방법 (Installation)
 
-이 프로젝트는 현재 개발 초기 단계이므로, Git URL을 통해 의존성을 추가할 수 있습니다.
-`pubspec.yaml` 파일에 아래 내용을 추가하십시오.
+이 프로젝트는 현재 개발 초기 단계이므로, Git URL을 통해 의존성을 추가할 수 있습니다. `pubspec.yaml` 파일에 아래 내용을 추가하십시오.
 
 ```yaml
 dependencies:
   kec_safety_calculator_core:
     git:
       url: [https://github.com/OpenKEC/kec-safety-calculator-core.git](https://github.com/OpenKEC/kec-safety-calculator-core.git)
-      ref: main```
+      ref: main
