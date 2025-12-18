@@ -42,7 +42,7 @@ dependencies:
       url: [https://github.com/OpenKEC/kec-safety-calculator-core.git](https://github.com/OpenKEC/kec-safety-calculator-core.git)
       ref: main
 
-```markdown
+```
 ## 🚀 사용 예시 (Usage)
 
 다음은 전압강하를 계산하는 간단한 코드 예시입니다. 설명대로 값을 넣으면 결과를 바로 확인할 수 있습니다.
