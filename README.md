@@ -45,10 +45,10 @@ dependencies:
 
 
 ## 🚀 사용 예시 (Usage)
+
 다음은 전압강하를 계산하는 간단한 코드 예시입니다.
 
-Dart
-
+```dart
 import 'package:kec_safety_calculator_core/kec_calculator.dart';
 
 void main() {
