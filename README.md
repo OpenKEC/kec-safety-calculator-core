@@ -41,3 +41,38 @@ dependencies:
     git:
       url: [https://github.com/OpenKEC/kec-safety-calculator-core.git](https://github.com/OpenKEC/kec-safety-calculator-core.git)
       ref: main
+
+```markdown
+## 🚀 사용 예시 (Usage)
+
+다음은 전압강하를 계산하는 간단한 코드 예시입니다. 설명대로 값을 넣으면 결과를 바로 확인할 수 있습니다.
+
+```dart
+import 'package:kec_safety_calculator_core/kec_calculator.dart';
+
+void main() {
+  // 1. 계산 조건 설정
+  // 예: 3상 4선식 380V, 부하전류 50A, 거리 100m, 케이블 35sq
+  var params = VoltageDropParams(
+    voltageSystem: VoltageSystem.threePhase4Wire, 
+    voltage: 380.0,
+    current: 50.0,
+    length: 100.0,
+    cableCSA: 35.0, // Cross Sectional Area (sq)
+    powerFactor: 0.9,
+  );
+
+  // 2. 계산 수행
+  var result = VoltageDropCalculator.calculate(params);
+
+  // 3. 결과 출력
+  print('전압강하(V): ${result.dropVoltage.toStringAsFixed(2)} V');
+  print('전압강하율(%): ${result.dropRate.toStringAsFixed(2)} %');
+  
+  // 4. KEC 규정 적합 여부 판단 (예: 5% 이내)
+  if (result.dropRate <= 5.0) {
+    print('✅ 적합: 전압강하가 허용 범위 이내입니다.');
+  } else {
+    print('❌ 부적합: 케이블 굵기를 선정해 주십시오.');
+  }
+}
