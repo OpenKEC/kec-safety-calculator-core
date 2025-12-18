@@ -1,5 +1,5 @@
 import 'dart:io';
-// ★ 패키지 이름이 다르면 pubspec.yaml에 있는 이름으로 수정하세요.
+
 import 'package:kec_safety_calculator_core/kec_calculator.dart';
 
 /// 화면 지우기 함수
@@ -22,7 +22,7 @@ double inputDouble(String label, [double defaultValue = 0.0]) {
 void main() async {
   while (true) {
     print('\n==================================================');
-    print('   ⚡ KEC Safety Calculator Core - 통합 테스트   ');
+    print('   ⚡ KEC Safety Calculator Core - 통합 테스트 (Real)   ');
     print('==================================================');
     print('1. 🔌 허용전류 계산 (Cable Capacity)');
     print('2. 📉 전압강하 계산 (Voltage Drop)');
@@ -70,31 +70,34 @@ void main() async {
 // ====================================================
 Future<void> _testCableCapacity() async {
   print('\n--- [1] 허용전류 계산 (Cable Capacity) ---');
-  print('📝 조건: TFR-CV, 3상, 공사방법 C(기중) 가정');
+  print('📝 조건: TFR-CV(XLPE), 1C, 3상, 공사방법 F(Tray) 가정');
 
-  // 사용자 입력
   double size = inputDouble('👉 전선 굵기(sq) 입력', 4.0);
   double temp = inputDouble('👉 주위 온도(°C) 입력', 30.0);
 
-  print('\n🔄 계산 중...');
+  print('\n🔄 계산 중 (Real Core Logic)...');
 
-  // [TODO] 실제 선생님의 CableCapacityCalculator 연결
-  // 예시 코드 (실제 클래스명으로 수정 필요):
-  /*
+  // 실제 로직 호출
   var params = CableCapacityParams(
-     conductorSize: size,
-     temperature: temp,
-     insulation: InsulationType.xlpe, 
-     method: InstallationMethod.c
+    cableSizeSq: size,
+    insulationType: InsulationType.xlpe,
+    conductorType: ConductorType.copper,
+    constructionCode: 'F', // Tray
+    ambientTemperature: temp.toInt(),
+    numberOfCircuits: 1,
+    conductorCount: 1, // Single core
+    parallelConductors: 1,
   );
-  var result = CableCapacityCalculator.calculate(params);
-  print('✅ 계산된 허용전류: $result A');
-  */
 
-  // (임시 시뮬레이션 로직)
-  double simulResult = (size < 6) ? 34.0 : 50.0; 
-  if (temp > 30) simulResult *= 0.9; // 온도 보정 흉내
-  print('✅ (시뮬레이션) 허용전류: ${simulResult.toStringAsFixed(2)} A');
+  try {
+    var result = CableCapacityCalculator.calculate(params);
+    print('✅ 계산된 허용전류: ${result.adjustedIz.toStringAsFixed(2)} A');
+    print('   - 기본 허용전류: ${result.baseIz} A');
+    print('   - 온도 보정계수: ${result.tempCorrectionFactor}');
+    print('   - 집합 보정계수: ${result.groupingCorrectionFactor}');
+  } catch (e) {
+    print('❌ 계산 실패: $e');
+  }
 }
 
 // ====================================================
@@ -107,28 +110,33 @@ Future<void> _testVoltageDrop() async {
   double current = inputDouble('👉 부하 전류(I) [A]', 25.0);
   double size = inputDouble('👉 전선 굵기(A) [sq]', 4.0);
 
-  print('\n🔄 계산 중...');
+  print('\n🔄 계산 중 (Real Core Logic)...');
 
-  // [TODO] 실제 선생님의 VoltageDropCalculator 연결
-  /*
   var params = VoltageDropParams(
-    length: dist,
-    current: current,
-    area: size,
-    voltage: 380,
-    isThreePhase: true
+    lengthInMeters: dist,
+    loadCurrent: current,
+    cableSizeSq: size,
+    systemVoltage: 380, // Default 380V (3상)
+    wiringType: WiringType.threePhase,
+    powerFactor: 0.9,
+    conductorType: ConductorType.copper,
+    parallelConductors: 1,
+    resistancePerKm: null, // Auto lookup
+    reactancePerKm: null, // Auto lookup
   );
-  var result = VoltageDropCalculator.calculate(params);
-  print('✅ 전압강하: ${result.dropVoltage} V (${result.dropPercent}%)');
-  */
 
-  // (임시 약식 계산 식)
-  double e = (30.8 * dist * current) / (1000 * size);
-  double rate = (e / 380) * 100;
-  
-  print('✅ (시뮬레이션) 전압강하: ${e.toStringAsFixed(2)} V');
-  print('✅ (시뮬레이션) 전압강하율: ${rate.toStringAsFixed(2)} %');
-  if (rate > 3.0) print('⚠️ [경고] 허용 기준 3% 초과!');
+  try {
+    var result = VoltageDropCalculator.calculate(params);
+    print('✅ 전압강하: ${result.dropVoltage.toStringAsFixed(2)} V');
+    print('✅ 전압강하율: ${result.dropPercent.toStringAsFixed(2)} %');
+    if (result.dropPercent > 3.0) {
+      print('⚠️ [경고] 허용 기준 3% 초과!');
+    } else {
+      print('🟢 [양호] 허용 기준 3% 이내');
+    }
+  } catch (e) {
+    print('❌ 계산 실패: $e');
+  }
 }
 
 // ====================================================
@@ -136,59 +144,86 @@ Future<void> _testVoltageDrop() async {
 // ====================================================
 Future<void> _testBreaker() async {
   print('\n--- [3] 차단기 선정 (Breaker Selection) ---');
+  print('📝 입력: 부하 용량을 입력하면 설계전류를 계산하여 차단기를 선정합니다.');
   
-  double ib = inputDouble('👉 설계 전류(Ib) [A]', 22.0);
+  double power = inputDouble('👉 부하 용량(P) [kW]', 15.0);
 
-  print('\n🔄 계산 중...');
+  print('\n🔄 계산 중 (Real Core Logic)...');
 
-  // [TODO] BreakerCalculator 연결
-  /*
-  double breaker = BreakerCalculator.selectBreaker(ib);
-  print('✅ 선정된 차단기: $breaker A');
-  */
-  
-  // (임시 로직)
-  int selected = 0;
-  List<int> standard = [15, 20, 30, 40, 50, 60, 75, 100];
-  for (var b in standard) {
-    if (b > ib) {
-      selected = b;
-      break;
-    }
+  var params = DesignCurrentParams(
+    capacity: power,
+    capacityUnit: 'kW',
+    systemVoltage: 380,
+    wiringType: WiringType.threePhase,
+    powerFactor: 0.9,
+    isMotorLoad: false, // 일반 부하 가정
+  );
+
+  try {
+    var result = BreakerCalculator.selectBreaker(
+      params: params,
+      breakerType: BreakerType.industrial, // 배선용차단기(산업용) 가정
+    );
+
+    print('✅ 설계 전류(Ib): ${result.designCurrent.toStringAsFixed(2)} A');
+    print('✅ 차단기 선정 기준값(Target): ${result.targetCurrent.toStringAsFixed(2)} A');
+    print('✅ 선정된 차단기(In): ${result.selectedBreakerRating} A');
+  } catch (e) {
+    print('❌ 계산 실패: $e');
   }
-  print('✅ (시뮬레이션) 선정된 차단기: ${selected} A');
 }
 
 // ====================================================
 //  [4] 단락전류 계산 테스트
 // ====================================================
 Future<void> _testShortCircuit() async {
-  print('\n--- [4] 단락전류 계산 (Short Circuit) ---');
-  double impedance = inputDouble('👉 임피던스(Z) [ohm]', 0.05);
-  double volt = inputDouble('👉 전압(V)', 220.0);
+  print('\n--- [4] 단락전류 계산 (Short Circuit) - Transformer Method ---');
+  print('📝 변압기 정보를 입력받아 간이 계산을 수행합니다.');
+  
+  double kva = inputDouble('👉 변압기 용량 [kVA]', 1000.0);
+  double volt = inputDouble('👉 2차측 전압 [V]', 380.0);
+  double imp = inputDouble('👉 퍼센트 임피던스 [%]', 5.0);
 
-  // Is = V / Z
-  double result = volt / impedance;
-  print('✅ (시뮬레이션) 예상 단락전류: ${(result/1000).toStringAsFixed(2)} kA');
+  print('\n🔄 계산 중 (Real Core Logic)...');
+
+  try {
+    double isCurrent = BreakerCalculator.calculateShortCircuitCurrent(
+      kva: kva,
+      voltage: volt,
+      impedancePercent: imp,
+    );
+    print('✅ 예상 단락전류(Is): ${isCurrent.toStringAsFixed(2)} kA');
+  } catch (e) {
+    print('❌ 계산 실패: $e');
+  }
 }
 
 // ====================================================
-//  [5] 접지선 굵기 테스트
+//  [5] 접지선 굵기 테스트 (보호도체)
 // ====================================================
 Future<void> _testEarthing() async {
   print('\n--- [5] 접지선 굵기 (Earthing Size) ---');
+  print('📝 단락전류에 견디는 최소 접지선 굵기 계산 (KEC 142.3.2)');
   
-  double isCurrent = inputDouble('👉 고장 전류(Is) [kA]', 5.0); // kA 단위
-  double time = inputDouble('👉 동작 시간(t) [sec]', 0.1);
+  double isCurrent = inputDouble('👉 고장 전류(Is) [kA]', 5.0); 
+  double time = inputDouble('👉 차단 동작 시간(t) [sec]', 0.1);
 
-  // KEC 142.3.2 (S = sqrt(I^2 * t) / k)
-  // 구리선 k=143 가정
-  double s = (isCurrent * 1000 * 1000 * time) / 143; // 제곱근 전 단순화
-  // 실제 공식: S = (I * sqrt(t)) / k
-  // I는 Ampere 단위
-  double result = (isCurrent * 1000 * (time > 0 ?  (time * 0.5) : 0.1)) / 143; // 단순 근사치
-  
-  print('✅ (시뮬레이션) 최소 접지선 굵기: 6 sq 이상 권장 (계산값: ${result.toStringAsFixed(2)})');
+  print('\n🔄 계산 중 (Real Core Logic)...');
+
+  var params = ShortCircuitParams(
+    shortCircuitCurrentKa: isCurrent,
+    durationSeconds: time,
+    insulationType: InsulationType.pvc, // 보통 접지선은 GV(PVC) 사용
+  );
+
+  try {
+    var result = BreakerCalculator.checkShortCircuitSafety(params: params);
+    print('✅ 최소 접지선 굵기: ${result.minCableSizeSq.toStringAsFixed(2)} sq 이상');
+    print('ℹ️ (적용 K계수: ${result.kFactor})');
+    print('ℹ️ KEC 규격에 맞는 표준 굵기를 선정하세요 (예: 6, 10, 16 sq...)');
+  } catch (e) {
+    print('❌ 계산 실패: $e');
+  }
 }
 
 // ====================================================
@@ -197,41 +232,135 @@ Future<void> _testEarthing() async {
 Future<void> _testConduit() async {
   print('\n--- [6] 전선관 굵기 (Conduit Size) ---');
   
-  double cableArea = inputDouble('👉 전선 단면적(sq)', 4.0);
+  double cableArea = inputDouble('👉 전선 굵기(sq)', 4.0);
   double count = inputDouble('👉 전선 가닥수', 3.0);
 
-  // 내선규정: 관 내 단면적의 32% (또는 48%) 이하
-  print('✅ (시뮬레이션) 추천 전선관: 16 mm (후강전선관 기준)');
+  print('\n🔄 계산 중 (Real Core Logic)...');
+
+  var params = ConduitParams(
+    mainWireSizeSq: cableArea,
+    mainWireCount: count.toInt(),
+    mainWireType: CableCoreType.single, // 보통 관에는 단심(IV/HFIX) 많이 사용
+    earthWireSizeSq: null,
+    earthWireCount: 0,
+  );
+
+  try {
+    var result = ConduitCalculator.calculateDetailed(params);
+    
+    print('✅ 총 전선 단면적: ${result.totalWireArea.toStringAsFixed(2)} mm²');
+    print('✅ 추천 전선관 목록 (여유율 32% 이하 기준):');
+    for (var rec in result.recommendations) {
+        String safeMark = rec.isSafe ? "O" : "X";
+        String warnMsg = "";
+        if (rec.disallowedSize != null) {
+          warnMsg = " (⚠️ ${rec.disallowedSize}호는 ${rec.disallowedOccupancy?.toStringAsFixed(1)}%로 불가)";
+        }
+        
+        print(' - [${rec.typeLabel}]');
+        print('   추천: ${rec.size}호 (여유율 ${rec.occupancyRate.toStringAsFixed(1)}%) [$safeMark]$warnMsg');
+    }
+    print('\n💡 전문가 팁: ${result.expertTip}');
+    
+  } catch (e) {
+    print('❌ 계산 실패: $e');
+  }
 }
 
 // ====================================================
 //  [7] 통합 설계 테스트
 // ====================================================
 Future<void> _testIntegration() async {
-  print('\n--- [7] 통합 설계 시뮬레이션 (All-in-One) ---');
-  print('📝 시나리오: 15kW 히터 (3상 380V), 거리 50m');
+  print('\n--- [7] 통합 설계 시뮬레이션 (Real Workflow) ---');
+  print('📝 시나리오: 3상 380V, 히터 부하, 공사방법 C(기중), XLPE 케이블');
   
-  double power = 15.0; // kW
-  double dist = 50.0;  // m
+  double power = inputDouble('👉 부하 용량 [kW]', 15.0);
+  double dist = inputDouble('👉 전선 길이 [m]', 50.0);
   
-  // 1. 전류 계산 (I = P / (sqrt(3)*V*cosT))
-  double current = (power * 1000) / (1.732 * 380 * 1.0);
-  print('\n[Step 1] 부하 전류 계산: ${current.toStringAsFixed(2)} A');
+  print('\n🔄 통합 프로세스 실행...');
 
-  // 2. 차단기 선정
-  print('[Step 2] 차단기 선정: 30 A (25.3A < 30A)');
-
-  // 3. 케이블 선정 (허용전류 > 30A)
-  print('[Step 3] 케이블 선정: 4 sq (허용전류 34A > 차단기 30A)');
-
-  // 4. 전압강하 검토
-  double e = (30.8 * dist * 30) / (1000 * 4); // 전류는 차단기 용량 기준 보수적 계산
-  double rate = (e / 380) * 100;
-  print('[Step 4] 전압강하 검토: ${rate.toStringAsFixed(2)} %');
+  // 1. 차단기 선정
+  double designCurrent = 0.0;
+  int breakerRating = 0;
   
-  if (rate > 3.0) {
-    print('🚨 [FAIL] 전압강하 3% 초과! -> 전선 굵기 상향 필요 (4sq -> 6sq)');
-  } else {
-    print('🟢 [PASS] 설계 적합');
+  try {
+      print('\n[Step 1] 부하 전류 및 차단기 선정');
+      var breakerParams = DesignCurrentParams(
+        capacity: power,
+        capacityUnit: 'kW',
+        systemVoltage: 380,
+        wiringType: WiringType.threePhase,
+        powerFactor: 1.0, // 히터
+        isMotorLoad: false
+      );
+      var breakerRes = BreakerCalculator.selectBreaker(
+          params: breakerParams, 
+          breakerType: BreakerType.industrial
+      );
+      designCurrent = breakerRes.designCurrent;
+      breakerRating = breakerRes.selectedBreakerRating;
+      print(' -> 설계전류: ${designCurrent.toStringAsFixed(2)} A');
+      print(' -> 선정 차단기: ${breakerRating} A');
+  } catch (e) {
+      print('FAILED: $e');
+      return;
   }
+
+  // 2. 케이블 굵기 선정 (차단기 용량 < 허용전류 만족 필요)
+  double selectedCableSize = 0.0;
+  try {
+    print('\n[Step 2] 케이블 굵기 선정 (허용전류 > $breakerRating A)');
+    // 최소 규격 찾기
+    var cableParams = CableCapacityParams(
+        cableSizeSq: 4.0, // dummy, will be overridden by selectMinCableSize
+        insulationType: InsulationType.xlpe,
+        conductorType: ConductorType.copper,
+        constructionCode: 'C',
+        ambientTemperature: 30,
+        numberOfCircuits: 1,
+        conductorCount: 1,
+        parallelConductors: 1
+    );
+    
+    var cableRes = CableCapacityCalculator.selectMinCableSize(
+        targetCurrent: breakerRating.toDouble(), 
+        params: cableParams
+    );
+    selectedCableSize = cableRes.cableSizeSq;
+    print(' -> 선정된 굵기: $selectedCableSize sq (허용전류 ${cableRes.adjustedIz.toStringAsFixed(2)} A)');
+
+  } catch (e) {
+    print('FAILED: $e');
+    return;
+  }
+
+  // 3. 전압강하 검토
+  try {
+    // 부하전류 재설정 (위 params에서 loadCurrent는 필수니까)
+    var dropParams = VoltageDropParams(
+         lengthInMeters: dist,
+         cableSizeSq: selectedCableSize,
+         loadCurrent: designCurrent, // 정확한 부하전류 사용
+         systemVoltage: 380,
+         wiringType: WiringType.threePhase,
+         powerFactor: 1.0,
+         conductorType: ConductorType.copper,
+         parallelConductors: 1,
+    );
+
+    var dropRes = VoltageDropCalculator.calculate(dropParams);
+    print(' -> 전압강하: ${dropRes.dropVoltage.toStringAsFixed(2)} V');
+    print(' -> 전압강하율: ${dropRes.dropPercent.toStringAsFixed(2)} %');
+    
+    if (dropRes.dropPercent > 3.0) {
+        print('🚨 [FAIL] 3% 초과! 굵기 증대 필요');
+        // 개선 로직(loop)은 생략, 안내만.
+    } else {
+        print('🟢 [PASS] 적합');
+    }
+  } catch (e) {
+    print('FAILED: $e');
+  }
+
+  print('\n✅ 통합 설계 시뮬레이션 완료');
 }
