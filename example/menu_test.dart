@@ -40,13 +40,27 @@ void main() async {
 
     try {
       switch (menu) {
-        case '1': await _testCableCapacity(); break;
-        case '2': await _testVoltageDrop(); break;
-        case '3': await _testBreaker(); break;
-        case '4': await _testShortCircuit(); break;
-        case '5': await _testEarthing(); break;
-        case '6': await _testConduit(); break;
-        case '7': await _testIntegration(); break;
+        case '1':
+          await _testCableCapacity();
+          break;
+        case '2':
+          await _testVoltageDrop();
+          break;
+        case '3':
+          await _testBreaker();
+          break;
+        case '4':
+          await _testShortCircuit();
+          break;
+        case '5':
+          await _testEarthing();
+          break;
+        case '6':
+          await _testConduit();
+          break;
+        case '7':
+          await _testIntegration();
+          break;
         case '0':
           print('프로그램을 종료합니다.');
           exit(0);
@@ -105,7 +119,7 @@ Future<void> _testCableCapacity() async {
 // ====================================================
 Future<void> _testVoltageDrop() async {
   print('\n--- [2] 전압강하 계산 (Voltage Drop) ---');
-  
+
   double dist = inputDouble('👉 전선 길이(L) [m]', 50.0);
   double current = inputDouble('👉 부하 전류(I) [A]', 25.0);
   double size = inputDouble('👉 전선 굵기(A) [sq]', 4.0);
@@ -145,7 +159,7 @@ Future<void> _testVoltageDrop() async {
 Future<void> _testBreaker() async {
   print('\n--- [3] 차단기 선정 (Breaker Selection) ---');
   print('📝 입력: 부하 용량을 입력하면 설계전류를 계산하여 차단기를 선정합니다.');
-  
+
   double power = inputDouble('👉 부하 용량(P) [kW]', 15.0);
 
   print('\n🔄 계산 중 (Real Core Logic)...');
@@ -179,7 +193,7 @@ Future<void> _testBreaker() async {
 Future<void> _testShortCircuit() async {
   print('\n--- [4] 단락전류 계산 (Short Circuit) - Transformer Method ---');
   print('📝 변압기 정보를 입력받아 간이 계산을 수행합니다.');
-  
+
   double kva = inputDouble('👉 변압기 용량 [kVA]', 1000.0);
   double volt = inputDouble('👉 2차측 전압 [V]', 380.0);
   double imp = inputDouble('👉 퍼센트 임피던스 [%]', 5.0);
@@ -204,8 +218,8 @@ Future<void> _testShortCircuit() async {
 Future<void> _testEarthing() async {
   print('\n--- [5] 접지선 굵기 (Earthing Size) ---');
   print('📝 단락전류에 견디는 최소 접지선 굵기 계산 (KEC 142.3.2)');
-  
-  double isCurrent = inputDouble('👉 고장 전류(Is) [kA]', 5.0); 
+
+  double isCurrent = inputDouble('👉 고장 전류(Is) [kA]', 5.0);
   double time = inputDouble('👉 차단 동작 시간(t) [sec]', 0.1);
 
   print('\n🔄 계산 중 (Real Core Logic)...');
@@ -231,7 +245,7 @@ Future<void> _testEarthing() async {
 // ====================================================
 Future<void> _testConduit() async {
   print('\n--- [6] 전선관 굵기 (Conduit Size) ---');
-  
+
   double cableArea = inputDouble('👉 전선 굵기(sq)', 4.0);
   double count = inputDouble('👉 전선 가닥수', 3.0);
 
@@ -247,21 +261,22 @@ Future<void> _testConduit() async {
 
   try {
     var result = ConduitCalculator.calculateDetailed(params);
-    
+
     print('✅ 총 전선 단면적: ${result.totalWireArea.toStringAsFixed(2)} mm²');
     print('✅ 추천 전선관 목록 (여유율 32% 이하 기준):');
     for (var rec in result.recommendations) {
-        String safeMark = rec.isSafe ? "O" : "X";
-        String warnMsg = "";
-        if (rec.disallowedSize != null) {
-          warnMsg = " (⚠️ ${rec.disallowedSize}호는 ${rec.disallowedOccupancy?.toStringAsFixed(1)}%로 불가)";
-        }
-        
-        print(' - [${rec.typeLabel}]');
-        print('   추천: ${rec.size}호 (여유율 ${rec.occupancyRate.toStringAsFixed(1)}%) [$safeMark]$warnMsg');
+      String safeMark = rec.isSafe ? "O" : "X";
+      String warnMsg = "";
+      if (rec.disallowedSize != null) {
+        warnMsg =
+            " (⚠️ ${rec.disallowedSize}호는 ${rec.disallowedOccupancy?.toStringAsFixed(1)}%로 불가)";
+      }
+
+      print(' - [${rec.typeLabel}]');
+      print(
+          '   추천: ${rec.size}호 (여유율 ${rec.occupancyRate.toStringAsFixed(1)}%) [$safeMark]$warnMsg');
     }
     print('\n💡 전문가 팁: ${result.expertTip}');
-    
   } catch (e) {
     print('❌ 계산 실패: $e');
   }
@@ -271,95 +286,50 @@ Future<void> _testConduit() async {
 //  [7] 통합 설계 테스트
 // ====================================================
 Future<void> _testIntegration() async {
-  print('\n--- [7] 통합 설계 시뮬레이션 (Real Workflow) ---');
-  print('📝 시나리오: 3상 380V, 히터 부하, 공사방법 C(기중), XLPE 케이블');
-  
+  print('\n--- [7] 통합 설계 시뮬레이션 (Integrated Service) ---');
+  print('📝 시나리오: 히터 부하(역률 1.0), 3상 380V, 공사방법 C(기중), XLPE 케이블');
+
   double power = inputDouble('👉 부하 용량 [kW]', 15.0);
   double dist = inputDouble('👉 전선 길이 [m]', 50.0);
-  
-  print('\n🔄 통합 프로세스 실행...');
 
-  // 1. 차단기 선정
-  double designCurrent = 0.0;
-  int breakerRating = 0;
-  
+  print('\n🔄 통합 프로세스 실행 (IntegratedKecService)...');
+
+  final input = KecCalculationInput(
+    voltage: 380,
+    loadCapacity: power,
+    capacityUnit: 'kW',
+    cableLength: dist,
+    wiringMethod: WiringType.threePhase,
+    conductorType: ConductorType.copper,
+    insulationType: InsulationType.xlpe,
+    constructionMethodCode: 'C',
+    ambientTemperature: 30,
+    breakerType: BreakerType.industrial,
+    isMotor: false,
+    powerFactor: 1.0,
+    numberOfCircuits: 1,
+    parallelConductors: 1,
+  );
+
   try {
-      print('\n[Step 1] 부하 전류 및 차단기 선정');
-      var breakerParams = DesignCurrentParams(
-        capacity: power,
-        capacityUnit: 'kW',
-        systemVoltage: 380,
-        wiringType: WiringType.threePhase,
-        powerFactor: 1.0, // 히터
-        isMotorLoad: false
-      );
-      var breakerRes = BreakerCalculator.selectBreaker(
-          params: breakerParams, 
-          breakerType: BreakerType.industrial
-      );
-      designCurrent = breakerRes.designCurrent;
-      breakerRating = breakerRes.selectedBreakerRating;
-      print(' -> 설계전류: ${designCurrent.toStringAsFixed(2)} A');
-      print(' -> 선정 차단기: ${breakerRating} A');
-  } catch (e) {
-      print('FAILED: $e');
-      return;
-  }
+    final result = await IntegratedKecService.calculate(input);
 
-  // 2. 케이블 굵기 선정 (차단기 용량 < 허용전류 만족 필요)
-  double selectedCableSize = 0.0;
-  try {
-    print('\n[Step 2] 케이블 굵기 선정 (허용전류 > $breakerRating A)');
-    // 최소 규격 찾기
-    var cableParams = CableCapacityParams(
-        cableSizeSq: 4.0, // dummy, will be overridden by selectMinCableSize
-        insulationType: InsulationType.xlpe,
-        conductorType: ConductorType.copper,
-        constructionCode: 'C',
-        ambientTemperature: 30,
-        numberOfCircuits: 1,
-        conductorCount: 1,
-        parallelConductors: 1
-    );
-    
-    var cableRes = CableCapacityCalculator.selectMinCableSize(
-        targetCurrent: breakerRating.toDouble(), 
-        params: cableParams
-    );
-    selectedCableSize = cableRes.cableSizeSq;
-    print(' -> 선정된 굵기: $selectedCableSize sq (허용전류 ${cableRes.adjustedIz.toStringAsFixed(2)} A)');
+    print('\n================ [계산 결과] ================');
+    print('✅ 최종 선정 굵기: ${result.finalCableSize} mm²');
+    print('✅ 최종 차단기 정격: ${result.finalBreakerRating} A');
+    print('--------------------------------------------');
+    print('📊 항목별 최소 굵기:');
+    result.detailResults.forEach((key, value) {
+      print(' - $key: $value ${value is num ? "mm²" : ""}');
+    });
 
-  } catch (e) {
-    print('FAILED: $e');
-    return;
-  }
-
-  // 3. 전압강하 검토
-  try {
-    // 부하전류 재설정 (위 params에서 loadCurrent는 필수니까)
-    var dropParams = VoltageDropParams(
-         lengthInMeters: dist,
-         cableSizeSq: selectedCableSize,
-         loadCurrent: designCurrent, // 정확한 부하전류 사용
-         systemVoltage: 380,
-         wiringType: WiringType.threePhase,
-         powerFactor: 1.0,
-         conductorType: ConductorType.copper,
-         parallelConductors: 1,
-    );
-
-    var dropRes = VoltageDropCalculator.calculate(dropParams);
-    print(' -> 전압강하: ${dropRes.dropVoltage.toStringAsFixed(2)} V');
-    print(' -> 전압강하율: ${dropRes.dropPercent.toStringAsFixed(2)} %');
-    
-    if (dropRes.dropPercent > 3.0) {
-        print('🚨 [FAIL] 3% 초과! 굵기 증대 필요');
-        // 개선 로직(loop)은 생략, 안내만.
-    } else {
-        print('🟢 [PASS] 적합');
+    print('\n📝 상세 계산 근거:');
+    for (var line in result.reasoning) {
+      print(' • $line');
     }
+    print('============================================');
   } catch (e) {
-    print('FAILED: $e');
+    print('❌ 통합 계산 실패: $e');
   }
 
   print('\n✅ 통합 설계 시뮬레이션 완료');
