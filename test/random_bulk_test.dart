@@ -13,7 +13,6 @@ void main() {
   int randomInt(int min, int max) => min + random.nextInt(max - min + 1);
 
   final standardSizes = kStandardCableSizes;
-  final constructionCodes = kConstructionMethods.map((m) => m.code).toList();
 
   group('KEC 로직 무작위 대량 테스트 (10회씩)', () {
     test('[1] 허용전류 계산 무작위 테스트', () {

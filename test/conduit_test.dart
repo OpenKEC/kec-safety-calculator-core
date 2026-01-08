@@ -11,7 +11,7 @@ void main() {
       // Safe Inner Area >= 368 / 0.32 = 1150 sqmm
       // Sqrt(1150 * 4 / pi) = Sqrt(1465) = 38.2 mm ID required
 
-      final result = ConduitCalculator.calculateDetailed(ConduitParams(
+      final result = ConduitCalculator.calculateDetailed(const ConduitParams(
         mainWireSizeSq: 4.0,
         mainWireCount: 3,
         mainWireType: CableCoreType.multi, // CV cable has larger OD

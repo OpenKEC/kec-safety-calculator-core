@@ -16,7 +16,7 @@ void main() {
       '[Input] $loadKw kW, $voltage V, L=$lengthMeters m, Method=$constructionMethod');
 
   // 2. 설계 전류 계산 및 차단기 선정 (Protection Module)
-  final designParams = DesignCurrentParams(
+  final designParams = const DesignCurrentParams(
     capacity: loadKw,
     capacityUnit: 'kW',
     systemVoltage: voltage,
@@ -39,7 +39,7 @@ void main() {
 
   // 3. 케이블 굵기 선정 (Cable Module)
   // 조건: 허용전류(Iz) >= 차단기 정격(In) (과부하 보호)
-  final cableParams = CableCapacityParams(
+  final cableParams = const CableCapacityParams(
     insulationType: insulation,
     conductorType: conductor,
     constructionCode: constructionMethod,
@@ -82,7 +82,7 @@ void main() {
   }
 
   // 5. 단락 안전성 검토 (Optional)
-  final shortCircuitParams = ShortCircuitParams(
+  final shortCircuitParams = const ShortCircuitParams(
     shortCircuitCurrentKa: 5.0, // 5kA 가정
     durationSeconds: 0.1, // 0.1s 차단 시간
     insulationType: insulation,

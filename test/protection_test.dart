@@ -4,7 +4,7 @@ import 'package:kec_safety_calculator_core/kec_calculator.dart';
 void main() {
   group('4. 단락전류 및 차단기 선정 (Protection)', () {
     test('Breaker Selection (Ib <= In)', () {
-      final params = DesignCurrentParams(
+      final params = const DesignCurrentParams(
         capacity: 10, // 10kW
         capacityUnit: 'kW',
         systemVoltage: 220, // 단상 220V
@@ -40,7 +40,7 @@ void main() {
       // MinS = (I*√t)/k = (30000 * √0.03) / 143
       // = (30000 * 0.1732) / 143 = 5196 / 143 = 36.33 sq
       final result = BreakerCalculator.checkShortCircuitSafety(
-        params: ShortCircuitParams(
+        params: const ShortCircuitParams(
           shortCircuitCurrentKa: 30.0,
           durationSeconds: 0.03,
           insulationType: InsulationType.xlpe,

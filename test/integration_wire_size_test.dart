@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:test/test.dart';
 import 'package:kec_safety_calculator_core/kec_calculator.dart';
 
@@ -16,7 +15,7 @@ void main() {
       const double voltage = 380.0;
 
       // Ib = 50000 / (1.732 * 380) = 75.9 A
-      final designParams = DesignCurrentParams(
+      final designParams = const DesignCurrentParams(
         capacity: loadKw,
         capacityUnit: 'kW',
         systemVoltage: voltage,
@@ -35,7 +34,7 @@ void main() {
       expect(breakerResult.selectedBreakerRating, equals(100));
 
       // 2. 케이블 허용전류 (In 이상이어야 함)
-      final cableParams = CableCapacityParams(
+      final cableParams = const CableCapacityParams(
         insulationType: InsulationType.xlpe,
         conductorType: ConductorType.copper,
         constructionCode: 'C', // 트레이/노출

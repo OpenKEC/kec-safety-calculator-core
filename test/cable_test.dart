@@ -4,7 +4,7 @@ import 'package:kec_safety_calculator_core/kec_calculator.dart';
 void main() {
   group('1. 전선 허용전류 (Allowable Current)', () {
     test('Should calculate Iz correctly for given params', () {
-      final params = CableCapacityParams(
+      final params = const CableCapacityParams(
         cableSizeSq: 4.0, // 4sq
         insulationType: InsulationType.xlpe,
         conductorType: ConductorType.copper,
@@ -21,7 +21,7 @@ void main() {
     });
 
     test('Should select correct minimum cable for target current', () {
-      final params = CableCapacityParams(
+      final params = const CableCapacityParams(
         insulationType: InsulationType.pvc,
         conductorType: ConductorType.copper,
         constructionCode: 'A1',

@@ -1,0 +1,86 @@
+00:00 +0: loading test/random_bulk_test.dart
+00:00 +0: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [1] ?덉슜?꾨쪟 怨꾩궛 臾댁옉???뚯뒪??
+--- [1] ?덉슜?꾨쪟 臾댁옉???곗씠???뚯뒪??---
+Test #1: Size:150.0 / Temp:41 / Circuits:1 => Iz:1646.04A
+Test #2: Size:25.0 / Temp:44 / Circuits:6 => Iz:0.00A
+Test #3: Size:95.0 / Temp:30 / Circuits:9 => Iz:618.00A
+Test #4: Size:2.5 / Temp:54 / Circuits:1 => Iz:23.79A
+Test #5: Size:4.0 / Temp:18 / Circuits:6 => Iz:74.05A
+Test #6: Size:500.0 / Temp:22 / Circuits:9 => Iz:0.00A
+Test #7: Size:50.0 / Temp:19 / Circuits:1 => Iz:891.00A
+Test #8: Size:6.0 / Temp:44 / Circuits:4 => Iz:60.08A
+Test #9: Size:4.0 / Temp:38 / Circuits:8 => Iz:28.05A
+Test #10: Size:50.0 / Temp:15 / Circuits:3 => Iz:222.25A
+00:00 +1: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [2] ?꾩븬媛뺥븯 怨꾩궛 臾댁옉???뚯뒪??
+--- [2] ?꾩븬媛뺥븯 臾댁옉???곗씠???뚯뒪??---
+Test #1: L:198m / I:122A / Size:50.0sq => Drop:4.27%
+Test #2: L:59m / I:62A / Size:300.0sq => Drop:0.15%
+Test #3: L:68m / I:21A / Size:35.0sq => Drop:0.31%
+Test #4: L:68m / I:189A / Size:400.0sq => Drop:0.54%
+Test #5: L:177m / I:39A / Size:240.0sq => Drop:0.53%
+Test #6: L:187m / I:9A / Size:120.0sq => Drop:0.14%
+Test #7: L:128m / I:21A / Size:240.0sq => Drop:0.19%
+Test #8: L:138m / I:71A / Size:185.0sq => Drop:0.82%
+Test #9: L:101m / I:163A / Size:16.0sq => Drop:12.35%
+Test #10: L:23m / I:91A / Size:150.0sq => Drop:0.25%
+00:00 +2: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [3] 李⑤떒湲??좎젙 臾댁옉???뚯뒪??
+--- [3] 李⑤떒湲??좎젙 臾댁옉???곗씠???뚯뒪??---
+Test #1: P:48kW / Motor:false => Ib:143.4A / Breaker:150A
+Test #2: P:25kW / Motor:false => Ib:40.7A / Breaker:50A
+Test #3: P:49kW / Motor:true => Ib:127.6A / Breaker:175A
+Test #4: P:31kW / Motor:false => Ib:49.1A / Breaker:50A
+Test #5: P:49kW / Motor:false => Ib:66.4A / Breaker:75A
+Test #6: P:38kW / Motor:true => Ib:189.0A / Breaker:250A
+Test #7: P:34kW / Motor:true => Ib:160.6A / Breaker:100A
+Test #8: P:45kW / Motor:true => Ib:250.4A / Breaker:315A
+Test #9: P:15kW / Motor:false => Ib:30.1A / Breaker:32A
+Test #10: P:11kW / Motor:false => Ib:17.6A / Breaker:20A
+00:00 +3: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [4] ?⑤씫?꾨쪟 怨꾩궛 臾댁옉???뚯뒪??
+--- [4] ?⑤씫?꾨쪟 臾댁옉???곗씠???뚯뒪??---
+Test #1: Tr:1496kVA / Volt:220V / Imp:4.4% => Is:88.34kA
+Test #2: Tr:824kVA / Volt:440V / Imp:5.6% => Is:19.42kA
+Test #3: Tr:833kVA / Volt:440V / Imp:5.7% => Is:19.08kA
+Test #4: Tr:724kVA / Volt:380V / Imp:5.9% => Is:18.76kA
+Test #5: Tr:1631kVA / Volt:440V / Imp:5.5% => Is:38.87kA
+Test #6: Tr:2116kVA / Volt:220V / Imp:5.1% => Is:108.26kA
+Test #7: Tr:1643kVA / Volt:380V / Imp:4.6% => Is:54.25kA
+Test #8: Tr:319kVA / Volt:440V / Imp:5.3% => Is:7.98kA
+Test #9: Tr:273kVA / Volt:220V / Imp:6.0% => Is:11.98kA
+Test #10: Tr:2231kVA / Volt:440V / Imp:5.9% => Is:49.74kA
+00:00 +4: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [5] ?묒???援듦린 臾댁옉???뚯뒪??
+--- [5] ?묒???援듦린 臾댁옉???곗씠???뚯뒪??---
+Test #1: Is:27kA / t:0.9s => MinSize:176.85sq
+Test #2: Is:18kA / t:0.7s => MinSize:106.98sq
+Test #3: Is:9kA / t:0.9s => MinSize:60.08sq
+Test #4: Is:24kA / t:0.8s => MinSize:150.64sq
+Test #5: Is:14kA / t:0.5s => MinSize:74.15sq
+Test #6: Is:12kA / t:0.6s => MinSize:81.77sq
+Test #7: Is:36kA / t:0.1s => MinSize:88.67sq
+Test #8: Is:31kA / t:0.6s => MinSize:200.13sq
+Test #9: Is:10kA / t:0.3s => MinSize:41.04sq
+Test #10: Is:4kA / t:0.5s => MinSize:24.34sq
+00:00 +5: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [6] ?꾩꽑愿 援듦린 臾댁옉???뚯뒪??
+--- [6] ?꾩꽑愿 援듦린 臾댁옉???곗씠???뚯뒪??---
+Test #1: Main:70.0x5 / Earth:4.0 => TotalArea:901mm짼
+Test #2: Main:300.0x4 / Earth:70.0 => TotalArea:10028mm짼
+Test #3: Main:185.0x2 / Earth:6.0 => TotalArea:3133mm짼
+Test #4: Main:95.0x2 / Earth:35.0 => TotalArea:1754mm짼
+Test #5: Main:95.0x5 / Earth:300.0 => TotalArea:1933mm짼
+Test #6: Main:95.0x3 / Earth:4.0 => TotalArea:739mm짼
+Test #7: Main:1.5x3 / Earth:4.0 => TotalArea:45mm짼
+Test #8: Main:50.0x4 / Earth:500.0 => TotalArea:2071mm짼
+Test #9: Main:1.5x3 / Earth:185.0 => TotalArea:479mm짼
+Test #10: Main:400.0x3 / Earth:4.0 => TotalArea:253mm짼
+00:00 +6: KEC 濡쒖쭅 臾댁옉??????뚯뒪??(10?뚯뵫) [7] ?듯빀 ?ㅺ퀎 (6?④퀎) 臾댁옉???뚯뒪??
+--- [7] ?듯빀 ?ㅺ퀎 臾댁옉???곗씠???뚯뒪??---
+Test #1: P:34kW / Motor:true / L:157m => FinalSize:35.0sq / Breaker:100A
+Test #2: P:92kW / Motor:false / L:140m => FinalSize:150.0sq / Breaker:300A
+Test #3: P:72kW / Motor:false / L:190m => FinalSize:300.0sq / Breaker:225A
+Test #4: P:14kW / Motor:false / L:90m => FinalSize:35.0sq / Breaker:75A
+Test #5: P:49kW / Motor:false / L:78m => FinalSize:25.0sq / Breaker:75A
+Test #6: P:40kW / Motor:false / L:48m => FinalSize:35.0sq / Breaker:60A
+Test #7: P:68kW / Motor:true / L:140m => FinalSize:240.0sq / Breaker:350A
+Test #8: P:27kW / Motor:false / L:181m => FinalSize:95.0sq / Breaker:100A
+Test #9: P:39kW / Motor:true / L:19m => FinalSize:50.0sq / Breaker:100A
+Test #10: P:54kW / Motor:false / L:71m => FinalSize:50.0sq / Breaker:150A
+00:00 +7: All tests passed!
