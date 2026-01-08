@@ -8,22 +8,32 @@ class CableCapacityCalculator {
   static CableCapacityResult calculate(CableCapacityParams params) {
     if (params.cableSizeSq == null) {
       throw ArgumentError(
-          'params.cableSizeSq is required for direct calculation.');
+        'params.cableSizeSq is required for direct calculation.',
+      );
     }
 
     final double size = params.cableSizeSq!;
 
     // 1. 기본 허용전류 (Base Iz) 가져오기
-    final double baseIz = _getBaseIz(size, params.insulationType,
-        params.constructionCode, params.conductorCount);
+    final double baseIz = _getBaseIz(
+      size,
+      params.insulationType,
+      params.constructionCode,
+      params.conductorCount,
+    );
 
     // 2. 온도 보정 계수 (k1)
-    final double k1 = _getTempCorrectionFactor(params.insulationType,
-        params.constructionCode, params.ambientTemperature);
+    final double k1 = _getTempCorrectionFactor(
+      params.insulationType,
+      params.constructionCode,
+      params.ambientTemperature,
+    );
 
     // 3. 집합 보정 계수 (k2)
     final double k2 = _getGroupingCorrectionFactor(
-        params.constructionCode, params.numberOfCircuits);
+      params.constructionCode,
+      params.numberOfCircuits,
+    );
 
     // 4. 최종 허용전류 계산
     // Adjusted = Base * k1 * k2 * Parallel
@@ -67,22 +77,28 @@ class CableCapacityCalculator {
     // 만족하는 규격이 없으면 가장 큰 규격 반환 (또는 예외 처리)
     // 여기서는 가장 큰 규격 계산 결과 반환 (Warning은 호출자가 처리)
     final maxSize = kStandardCableSizes.last;
-    return calculate(CableCapacityParams(
-      cableSizeSq: maxSize,
-      insulationType: params.insulationType,
-      conductorType: params.conductorType,
-      constructionCode: params.constructionCode,
-      ambientTemperature: params.ambientTemperature,
-      numberOfCircuits: params.numberOfCircuits,
-      conductorCount: params.conductorCount,
-      parallelConductors: params.parallelConductors,
-    ));
+    return calculate(
+      CableCapacityParams(
+        cableSizeSq: maxSize,
+        insulationType: params.insulationType,
+        conductorType: params.conductorType,
+        constructionCode: params.constructionCode,
+        ambientTemperature: params.ambientTemperature,
+        numberOfCircuits: params.numberOfCircuits,
+        conductorCount: params.conductorCount,
+        parallelConductors: params.parallelConductors,
+      ),
+    );
   }
 
   // --- Internal Helper Methods (Legacy Logic Ported) ---
 
   static double _getBaseIz(
-      double size, InsulationType insulation, String code, int conductors) {
+    double size,
+    InsulationType insulation,
+    String code,
+    int conductors,
+  ) {
     final spec = kCableSpecs[size];
     if (spec == null) return 0.0;
 
@@ -95,7 +111,18 @@ class CableCapacityCalculator {
 
     // 공사방법 코드 (예: A1) 매핑
     // 데이터 구조상 'A1', 'B1' 등의 키를 사용함
-    final methodMap = insulationMap[code];
+    String lookupCode = code;
+
+    // [New Logic Backport] 단심 케이블 + 공사방법 'E'(트레이)인 경우
+    // -> 'F' 테이블(밀착 포설) 값을 사용하도록 매핑 변경
+    if (conductors == 1 && code == 'E') {
+      lookupCode = 'F';
+    } else if (conductors > 1 && code == 'F') {
+      // 반대로 다심 케이블은 F(밀착) 개념이 없으므로 E(트레이)로 매핑 (안전장치)
+      lookupCode = 'E';
+    }
+
+    final methodMap = insulationMap[lookupCode];
     if (methodMap == null) return 0.0;
 
     final val = methodMap[conductors.toString()];
@@ -103,7 +130,10 @@ class CableCapacityCalculator {
   }
 
   static double _getTempCorrectionFactor(
-      InsulationType insulation, String code, int temp) {
+    InsulationType insulation,
+    String code,
+    int temp,
+  ) {
     // D1, D2는 'Ground', 나머지는 'Air' (Legacy Logic)
     final environment = (code == 'D1' || code == 'D2')
         ? InstallationType.ground
@@ -117,8 +147,10 @@ class CableCapacityCalculator {
 
     // 온도 범위 찾기: 입력 온도보다 크거나 같은 첫 번째 키값 (Safe lookup)
     final keys = envMap.keys.toList()..sort();
-    final targetKey =
-        keys.firstWhere((t) => t >= temp, orElse: () => keys.last);
+    final targetKey = keys.firstWhere(
+      (t) => t >= temp,
+      orElse: () => keys.last,
+    );
 
     return envMap[targetKey] ?? 1.0;
   }
@@ -146,13 +178,16 @@ class CableCapacityCalculator {
       groupKey = 'Tray';
     }
 
-    final groupMap = kGroupingCorrectionFactors[groupKey] ??
+    final groupMap =
+        kGroupingCorrectionFactors[groupKey] ??
         kGroupingCorrectionFactors['Tray']!;
 
     final keys = groupMap.keys.toList()..sort();
     // 회로 수보다 크거나 같은 첫 번째 키값
-    final targetKey =
-        keys.firstWhere((k) => k >= circuits, orElse: () => keys.last);
+    final targetKey = keys.firstWhere(
+      (k) => k >= circuits,
+      orElse: () => keys.last,
+    );
 
     return groupMap[targetKey] ?? 1.0;
   }
