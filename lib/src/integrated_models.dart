@@ -1,69 +1,71 @@
-import 'common/enums.dart';
+﻿import 'common/enums.dart';
 
-/// 통합 계산에 필요한 입력 값들을 담는 데이터 클래스
+/// ?듯빀 怨꾩궛 ?낅젰 ?뚮씪誘명꽣
 class KecCalculationInput {
+  final WiringType wiringMethod;
   final double voltage;
   final double loadCapacity;
-  final String capacityUnit; // 'kW' or 'kVA'
+  final String capacityUnit;
   final double cableLength;
-  final WiringType wiringMethod;
-  final ConductorType conductorType;
   final InsulationType insulationType;
+  final ConductorType conductorType;
   final String constructionMethodCode;
-  final int ambientTemperature;
-  final BreakerType breakerType;
-  final bool isMotor;
   final double powerFactor;
+  final bool isMotor;
+  final double? motorStartingMultiplier;
+  final bool isBreakerMode;
+  final int? inputBreakerA;
+  final BreakerType breakerType;
   final int numberOfCircuits;
   final int parallelConductors;
-
-  // 고급 옵션 (선택적)
-  final double? motorStartingMultiplier;
+  final bool isSingleCore;
   final double? shortCircuitCurrent;
   final double? shortCircuitDuration;
 
   KecCalculationInput({
+    required this.wiringMethod,
     required this.voltage,
     required this.loadCapacity,
-    this.capacityUnit = 'kW',
+    required this.capacityUnit,
     required this.cableLength,
-    required this.wiringMethod,
-    this.conductorType = ConductorType.copper,
-    this.insulationType = InsulationType.xlpe,
+    required this.insulationType,
+    required this.conductorType,
     required this.constructionMethodCode,
-    this.ambientTemperature = 30,
-    this.breakerType = BreakerType.industrial,
-    required this.isMotor,
     this.powerFactor = 0.9,
+    this.isMotor = false,
+    this.motorStartingMultiplier,
+    this.isBreakerMode = false,
+    this.inputBreakerA,
+    required this.breakerType,
     this.numberOfCircuits = 1,
     this.parallelConductors = 1,
-    this.motorStartingMultiplier,
+    this.isSingleCore = false,
     this.shortCircuitCurrent,
     this.shortCircuitDuration,
   });
 }
 
-/// 통합 계산 결과 모델
+/// ?듯빀 怨꾩궛 寃곌낵 紐⑤뜽
 class KecCalculationResult {
   final double finalCableSize;
   final int finalBreakerRating;
   final List<String> reasoning;
-  final Map<String, dynamic> detailResults;
-
-  // 단락전류 검토 관련 상세 정보 (UI 표시용)
   final double shortCircuitCurrent;
   final double shortCircuitDuration;
   final double minCableSizeForShortCircuit;
   final double kFactor;
+  final Map<String, dynamic> detailResults;
+  final double? reducedShortCircuitCurrent; // [New] 遺?섎떒 ?⑤씫?꾨쪟
 
   KecCalculationResult({
     required this.finalCableSize,
     required this.finalBreakerRating,
     required this.reasoning,
-    required this.detailResults,
     required this.shortCircuitCurrent,
     required this.shortCircuitDuration,
     required this.minCableSizeForShortCircuit,
     required this.kFactor,
+    required this.detailResults,
+    this.reducedShortCircuitCurrent,
   });
 }

@@ -1,7 +1,0 @@
-00:00 +0: loading test/min_size_verification_test.dart
-00:00 +0 -1: loading test/min_size_verification_test.dart [E]
-  Failed to load "test/min_size_verification_test.dart":
-  test/min_size_verification_test.dart:12:32: Error: Member not found: 'singlePhase2Wire'.
-        wiringMethod: WiringType.singlePhase2Wire,
-                                 ^^^^^^^^^^^^^^^^
-00:00 +0 -1: Some tests failed.

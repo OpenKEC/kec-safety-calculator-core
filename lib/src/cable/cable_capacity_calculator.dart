@@ -20,6 +20,7 @@ class CableCapacityCalculator {
       params.insulationType,
       params.constructionCode,
       params.conductorCount,
+      params.isSingleCore,
     );
 
     // 2. 온도 보정 계수 (k1)
@@ -33,6 +34,7 @@ class CableCapacityCalculator {
     final double k2 = _getGroupingCorrectionFactor(
       params.constructionCode,
       params.numberOfCircuits,
+      params.isSingleCore,
     );
 
     // 4. 최종 허용전류 계산
@@ -65,6 +67,7 @@ class CableCapacityCalculator {
         numberOfCircuits: params.numberOfCircuits,
         conductorCount: params.conductorCount,
         parallelConductors: params.parallelConductors,
+        isSingleCore: params.isSingleCore,
       );
 
       final result = calculate(currentParams);
@@ -75,7 +78,6 @@ class CableCapacityCalculator {
     }
 
     // 만족하는 규격이 없으면 가장 큰 규격 반환 (또는 예외 처리)
-    // 여기서는 가장 큰 규격 계산 결과 반환 (Warning은 호출자가 처리)
     final maxSize = kStandardCableSizes.last;
     return calculate(
       CableCapacityParams(
@@ -87,43 +89,54 @@ class CableCapacityCalculator {
         numberOfCircuits: params.numberOfCircuits,
         conductorCount: params.conductorCount,
         parallelConductors: params.parallelConductors,
+        isSingleCore: params.isSingleCore,
       ),
     );
   }
 
-  // --- Internal Helper Methods (Legacy Logic Ported) ---
+  // --- Internal Helper Methods ---
 
   static double _getBaseIz(
     double size,
     InsulationType insulation,
     String code,
     int conductors,
+    bool isSingleCore,
   ) {
     final spec = kCableSpecs[size];
     if (spec == null) return 0.0;
 
-    final izMap =
-        spec['iz'] as Map<InsulationType, Map<String, Map<String, dynamic>>>?;
-    if (izMap == null) return 0.0;
-
+    // Type casting logic for dynamic map
+    final izMap = spec['iz'];
+    if (izMap is! Map) return 0.0;
+    
     final insulationMap = izMap[insulation];
-    if (insulationMap == null) return 0.0;
+    if (insulationMap is! Map) return 0.0;
 
     // 공사방법 코드 (예: A1) 매핑
-    // 데이터 구조상 'A1', 'B1' 등의 키를 사용함
     String lookupCode = code;
 
-    // [New Logic Backport] 단심 케이블 + 공사방법 'E'(트레이)인 경우
-    // -> 'F' 테이블(밀착 포설) 값을 사용하도록 매핑 변경
-    if (conductors == 1 && code == 'E') {
+    // [Logic Update] 단심 케이블 + 공사방법 'E'(트레이)인 경우
+    // 'F' 테이블(밀착 포설, Spaced) 값을 사용하도록 매핑 변경
+    if (isSingleCore && code == 'E') {
       lookupCode = 'F';
-    } else if (conductors > 1 && code == 'F') {
-      // 반대로 다심 케이블은 F(밀착) 개념이 없으므로 E(트레이)로 매핑 (안전장치)
+    } 
+    // 다심 케이블은 F(밀착) 개념이 없으므로 E(트레이)로 매핑 (User Safety)
+    else if (!isSingleCore && code == 'F') {
       lookupCode = 'E';
     }
 
     final methodMap = insulationMap[lookupCode];
-    if (methodMap == null) return 0.0;
+    if (methodMap is! Map) {
+         // Fallback if 'F' not found, verify if 'E' exists
+         if (lookupCode == 'F' && code == 'E') {
+             final fallback = insulationMap['E'];
+             if(fallback is Map) {
+                 return (fallback[conductors.toString()] as num?)?.toDouble() ?? 0.0;
+             }
+         }
+         return 0.0;
+    }
 
     final val = methodMap[conductors.toString()];
     return (val as num?)?.toDouble() ?? 0.0;
@@ -134,7 +147,7 @@ class CableCapacityCalculator {
     String code,
     int temp,
   ) {
-    // D1, D2는 'Ground', 나머지는 'Air' (Legacy Logic)
+    // D1, D2는 'Ground', 나머지는 'Air'
     final environment = (code == 'D1' || code == 'D2')
         ? InstallationType.ground
         : InstallationType.air;
@@ -145,27 +158,29 @@ class CableCapacityCalculator {
     final envMap = typeMap[environment];
     if (envMap == null) return 1.0;
 
-    // 온도 범위 찾기: 입력 온도보다 크거나 같은 첫 번째 키값 (Safe lookup)
+    // Key가 정수형 온도(5단위)라고 가정하고, 입력 온도보다 크거나 같은 첫 번째 키 찾기 (없으면 Last)
     final keys = envMap.keys.toList()..sort();
-    final targetKey = keys.firstWhere(
+    
+    // 단순화된 로직: 정확히 일치 없으면 올림 처리
+    // 예: temp=32 -> 35
+    final targetTemp = keys.firstWhere(
       (t) => t >= temp,
       orElse: () => keys.last,
     );
 
-    return envMap[targetKey] ?? 1.0;
+    return envMap[targetTemp] ?? 1.0;
   }
 
-  static double _getGroupingCorrectionFactor(String code, int circuits) {
+  static double _getGroupingCorrectionFactor(
+    String code,
+    int circuits,
+    bool isSingleCore,
+  ) {
+    // 1회선이면 보정 없음
     if (circuits <= 1) return 1.0;
 
-    // Grouping Logic map (Legacy)
-    // 'A1','A2','B1','B2' -> Embedded
-    // 'C' -> Surface
-    // 'D1' -> GroundDuct
-    // 'D2' -> GroundDirect
-    // 'E','F','G' -> Tray (Default)
-
-    String groupKey = 'Tray';
+    // 공사 방법에 따른 그룹 키 매핑
+    String groupKey;
     if (['A1', 'A2', 'B1', 'B2'].contains(code)) {
       groupKey = 'Embedded';
     } else if (code == 'C') {
@@ -174,21 +189,22 @@ class CableCapacityCalculator {
       groupKey = 'GroundDuct';
     } else if (code == 'D2') {
       groupKey = 'GroundDirect';
-    } else if (['E', 'F', 'G'].contains(code)) {
+    } else {
+      // Tray (E, F)
+      // 단심이면 SingleLayer, 다심이면 MultiCore(Tray)
+      // 여기서는 KEC 표준 표에 따라 'Tray'로 통칭하되 상세 분리 가능
       groupKey = 'Tray';
     }
 
-    final groupMap =
-        kGroupingCorrectionFactors[groupKey] ??
-        kGroupingCorrectionFactors['Tray']!;
+    final groupMap = kGroupingCorrectionFactors[groupKey];
+    if (groupMap == null) return 1.0; // Default
 
     final keys = groupMap.keys.toList()..sort();
-    // 회로 수보다 크거나 같은 첫 번째 키값
-    final targetKey = keys.firstWhere(
-      (k) => k >= circuits,
+    final targetCircuits = keys.firstWhere(
+      (c) => c >= circuits,
       orElse: () => keys.last,
     );
 
-    return groupMap[targetKey] ?? 1.0;
+    return groupMap[targetCircuits] ?? 1.0;
   }
 }

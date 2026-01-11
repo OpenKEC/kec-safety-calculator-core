@@ -19,6 +19,6 @@ export 'src/protection/earthing_calculator.dart';
 
 export 'src/panel/panel_calculator.dart';
 
-// Integrated Service
+// Integrated Calculation Service
 export 'src/integrated_models.dart';
 export 'src/integrated_kec_service.dart';

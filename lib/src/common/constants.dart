@@ -24,414 +24,355 @@ class ConstructionMethodData {
 // ==========================================
 const List<ConstructionMethodData> kConstructionMethods = [
   ConstructionMethodData(
-    code: '1',
-    description: '단열벽 속에 매입한 전선관 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'A1',
-    imagePath: 'assets/images/construction/1_A1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '1',
+      description: '단열벽 속에 매입한 전선관 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'A1',
+      imagePath: 'assets/images/construction/1_A1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '2',
-    description: '단열벽 속에 매입한 전선관 내부의 다심 케이블',
-    standardCode: 'A2',
-    imagePath: 'assets/images/construction/2_A2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '2',
+      description: '단열벽 속에 매입한 전선관 내부의 다심 케이블',
+      standardCode: 'A2',
+      imagePath: 'assets/images/construction/2_A2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '3',
-    description: '단열벽 속에 직접 매입한 다심 케이블',
-    standardCode: 'A1',
-    imagePath: 'assets/images/construction/3_A1.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '3',
+      description: '단열벽 속에 직접 매입한 다심 케이블',
+      standardCode: 'A1',
+      imagePath: 'assets/images/construction/3_A1.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '4',
-    description: '목재 또는 석재의 벽면에 부착한 전선관 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/4_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '4',
+      description: '목재 또는 석재의 벽면에 부착한 전선관 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/4_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '5',
-    description:
-        '목재 또는 석재의 벽면에 부착한 전선관 안 또는 그 벽면으로부터 전선관 바깥지름의 0.3배 미만의 간격으로 배관된 전선관 안의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/5_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '5',
+      description:
+          '목재 또는 석재의 벽면에 부착한 전선관 안 또는 그 벽면으로부터 전선관 바깥지름의 0.3배 미만의 간격으로 배관된 전선관 안의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/5_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '6',
-    description:
-        '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹(트레이 아님) 내의 절연도체 또는 단심 케이블 (수평 배관)',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/6_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '6',
+      description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹 내의 절연도체 또는 단심 케이블 (수평 배관)',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/6_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '7',
-    description:
-        '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹(트레이 아님) 내의 절연도체 또는 단심 케이블 (수직 배관)',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/7_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '7',
+      description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹 내의 절연도체 또는 단심 케이블 (수직 배관)',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/7_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '8',
-    description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹(트레이 아님) 내의 다심 케이블 (수평 포설)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/8_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '8',
+      description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹 내의 다심 케이블 (수평 포설)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/8_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '9',
-    description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹(트레이 아님) 내의 다심 케이블 (수직 포설)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/9_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '9',
+      description: '목재 벽면 또는 석재 벽면에 부착한 케이블 트렁킹 내의 다심 케이블 (수직 포설)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/9_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '10',
-    description: '현수형 케이블 트렁킹(트레이 아님) 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/10_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '10',
+      description: '현수형 케이블 트렁킹 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/10_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '11',
-    description: '현수형 케이블 트렁킹(트레이 아님) 내부의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/11_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '11',
+      description: '현수형 케이블 트렁킹 내부의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/11_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '12',
-    description: '몰딩 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'A1',
-    imagePath: 'assets/images/construction/12_A1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '12',
+      description: '몰딩 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'A1',
+      imagePath: 'assets/images/construction/12_A1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '15',
-    description: '전선관 내부의 절연도체 또는 치마도리 내부의 단심 케이블이나 다심 케이블',
-    standardCode: 'A1',
-    imagePath: 'assets/images/construction/15_A1.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '15',
+      description: '전선관 내부의 절연도체 또는 치마도리 내부의 단심 케이블이나 다심 케이블',
+      standardCode: 'A1',
+      imagePath: 'assets/images/construction/15_A1.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '16',
-    description: '창틀 안에 시설하는 전선관 내부의 절연도체, 단심 케이블 또는 다심 케이블',
-    standardCode: 'A1',
-    imagePath: 'assets/images/construction/16_A1.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '16',
+      description: '창틀 안에 시설하는 전선관 내부의 절연도체, 단심 케이블 또는 다심 케이블',
+      standardCode: 'A1',
+      imagePath: 'assets/images/construction/16_A1.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '20',
-    description:
-        '단심 또는 다심 케이블: 목재벽 또는 석재벽에 고정 또는 벽면과 케이블지름의 0.3배 미만의 간격으로 설치된 경우',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/20_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '20',
+      description:
+          '단심 또는 다심 케이블: 목재벽 또는 석재벽에 고정 또는 벽면과 케이블지름의 0.3배 미만의 간격으로 설치된 경우',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/20_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '21',
-    description: '단심 또는 다심 케이블: 목재 또는 석재 천장면에 직접 고정된 경우',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/21_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '21',
+      description: '단심 또는 다심 케이블: 목재 또는 석재 천장면에 직접 고정된 경우',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/21_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '22',
-    description: '단심 또는 다심 케이블: 천장과 거리를 두고 설치된 경우 (검토 중, 방법 E 사용 가능)',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/22_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '22',
+      description: '단심 또는 다심 케이블: 천장과 거리를 두고 설치된 경우 (검토 중, 방법 E 사용 가능)',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/22_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '23',
-    description: '현수형 전기사용기기의 고정설비',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/23_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '23',
+      description: '현수형 전기사용기기의 고정설비',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/23_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '30',
-    description: '단심 또는 다심 케이블: 수직 또는 수평으로 설치되는 비천공형 트레이에 포설',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/30_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '30',
+      description: '단심 또는 다심 케이블: 수직 또는 수평으로 설치되는 비천공형 트레이에 포설',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/30_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '31',
-    description: '단심 또는 다심 케이블: 수직 또는 수평으로 설치되는 천공형 트레이에 포설',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/31_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '31',
+      description: '단심 또는 다심 케이블: 수직 또는 수평으로 설치되는 천공형 트레이에 포설',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/31_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '32',
-    description: '단심 또는 다심 케이블: 수직 또는 수평으로 배치되는 케이블 브래킷 또는 와이어 메시 트레이에 포설',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/32_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '32',
+      description: '단심 또는 다심 케이블: 수직 또는 수평으로 배치되는 케이블 브래킷 또는 와이어 메시 트레이에 포설',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/32_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '33',
-    description: '단심 또는 다심 케이블: 벽과의 간격이 케이블 지름의 0.3배 이상인 경우',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/33_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '33',
+      description: '단심 또는 다심 케이블: 벽과의 간격이 케이블 지름의 0.3배 이상인 경우',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/33_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '34',
-    description: '단심 또는 다심 케이블: 케이블 래더에 포설',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/34_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '34',
+      description: '단심 또는 다심 케이블: 케이블 래더에 포설',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/34_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '35',
-    description: '조가용선에 매달려 있거나 조가용선과 일체화하여 묶음 배선한 단심 또는 다심 케이블',
-    standardCode: 'E',
-    imagePath: 'assets/images/construction/35_E.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '35',
+      description: '조가용선에 매달려 있거나 조가용선과 일체화하여 묶음 배선한 단심 또는 다심 케이블',
+      standardCode: 'E',
+      imagePath: 'assets/images/construction/35_E.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '36',
-    description: '애자지지 나도체 또는 절연도체',
-    standardCode: 'G',
-    imagePath: 'assets/images/construction/36_G.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '36',
+      description: '애자지지 나도체 또는 절연도체',
+      standardCode: 'G',
+      imagePath: 'assets/images/construction/36_G.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '40-1',
-    description: '건물 내 빈 공간의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/40_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '40-1',
+      description: '건물 내 빈 공간의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/40_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '40-2',
-    description: '건물 내 빈 공간의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/40_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '40-2',
+      description: '건물 내 빈 공간의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/40_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '41-1',
-    description: '건물 내 빈 공간에 설치된 전선관 내의 절연도체',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/41_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '41-1',
+      description: '건물 내 빈 공간에 설치된 전선관 내의 절연도체',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/41_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '41-2',
-    description: '건물 내 빈 공간에 설치된 전선관 내의 다심 케이블 (참조)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/41_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '41-2',
+      description: '건물 내 빈 공간에 설치된 전선관 내의 다심 케이블 (참조)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/41_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '42-1',
-    description: '건물 내 빈 공간에 설치된 전선관 내의 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/42_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '42-1',
+      description: '건물 내 빈 공간에 설치된 전선관 내의 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/42_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '42-2',
-    description: '건물 내 빈 공간에 설치된 전선관 내의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/42_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '42-2',
+      description: '건물 내 빈 공간에 설치된 전선관 내의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/42_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '43-1',
-    description: '건물 내 빈 공간에 설치된 케이블 덕트(지중 아님) 내의 절연 전선',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/43_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '43-1',
+      description: '건물 내 빈 공간에 설치된 케이블 덕트 내의 절연 전선',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/43_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '43-2',
-    description: '건물 내 빈 공간에 설치된 케이블 덕트(지중 아님) 내의 다심 케이블 (참조)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/43_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '43-2',
+      description: '건물 내 빈 공간에 설치된 케이블 덕트 내의 다심 케이블 (참조)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/43_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '44-1',
-    description: '건물 내 빈 공간에 설치된 케이블 덕트(지중 아님) 의 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/44_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '44-1',
+      description: '건물 내 빈 공간에 설치된 케이블 덕트의 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/44_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '44-2',
-    description: '건물 내 빈 공간에 설치된 케이블 덕트(지중 아님) 의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/44_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '44-2',
+      description: '건물 내 빈 공간에 설치된 케이블 덕트의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/44_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '45-1',
-    description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트(지중 아님) 내의 절연도체',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/45_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '45-1',
+      description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트 내의 절연도체',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/45_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '45-2',
-    description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트(지중 아님) 내의 다심 케이블 (참조)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/45_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '45-2',
+      description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트 내의 다심 케이블 (참조)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/45_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '46-1',
-    description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트(지중 아님) 내의 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/46_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '46-1',
+      description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트 내의 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/46_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '46-2',
-    description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트(지중 아님) 내의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/46_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '46-2',
+      description: '열저항률이 2 K·m/W 이하인 석재 내부에 설치된 케이블 덕트 내의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/46_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '47-1',
-    description: '이중천장 안 또는 이중바닥에 설치된 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/47_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '47-1',
+      description: '이중천장 안 또는 이중바닥에 설치된 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/47_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '47-2',
-    description: '이중천장 안 또는 이중바닥에 설치된 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/47_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '47-2',
+      description: '이중천장 안 또는 이중바닥에 설치된 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/47_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '50',
-    description: '바닥매입형 케이블 트렁킹(트레이 아님) 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/50_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '50',
+      description: '바닥매입형 케이블 트렁킹 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/50_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '51',
-    description: '바닥매입형 케이블 트렁킹(트레이 아님) 내부의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/51_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '51',
+      description: '바닥매입형 케이블 트렁킹 내부의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/51_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '52',
-    description: '벽면매입형 케이블 트렁킹(트레이 아님) 내부의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/52_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '52',
+      description: '벽면매입형 케이블 트렁킹 내부의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/52_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '53',
-    description: '벽면매입형 케이블 트렁킹(트레이 아님) 내부의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/53_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '53',
+      description: '벽면매입형 케이블 트렁킹 내부의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/53_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '54-1',
-    description: '수평/수직 비환기형 케이블 채널 내 전선관 속의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/54_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '54-1',
+      description: '수평/수직 비환기형 케이블 채널 내 전선관 속의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/54_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '54-2',
-    description: '수평/수직 비환기형 케이블 채널 내 전선관 속의 다심 케이블 (참조)',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/54_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '54-2',
+      description: '수평/수직 비환기형 케이블 채널 내 전선관 속의 다심 케이블 (참조)',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/54_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '55',
-    description: '바닥에 설치된 개방형 또는 환기형 케이블 채널 내 전선관 속의 절연도체',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/55_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '55',
+      description: '바닥에 설치된 개방형 또는 환기형 케이블 채널 내 전선관 속의 절연도체',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/55_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '56',
-    description: '수평 또는 수직으로 설치된 개방형 또는 환기형 케이블 채널 내 단심 또는 다심 외장 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/56_B1.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '56',
+      description: '수평 또는 수직으로 설치된 개방형 또는 환기형 케이블 채널 내 단심 또는 다심 외장 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/56_B1.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '57',
-    description:
-        '열저항률이 2 K·m/W 이하인 석재 내부에 직접 매설한 단심 또는 다심 케이블 (기계적 손상 보호장치 없음)',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/57_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '57',
+      description:
+          '열저항률이 2 K·m/W 이하인 석재 내부에 직접 매설한 단심 또는 다심 케이블 (기계적 손상 보호장치 없음)',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/57_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '58',
-    description:
-        '열저항률이 2 K·m/W 이하인 석재 내부에 직접 매설된 단심 또는 다심 외장 케이블 (기계적 손상 보호장치 있음)',
-    standardCode: 'C',
-    imagePath: 'assets/images/construction/58_C.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-  ),
+      code: '58',
+      description:
+          '열저항률이 2 K·m/W 이하인 석재 내부에 직접 매설된 단심 또는 다심 외장 케이블 (기계적 손상 보호장치 있음)',
+      standardCode: 'C',
+      imagePath: 'assets/images/construction/58_C.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi]),
   ConstructionMethodData(
-    code: '59',
-    description: '석재벽 내부에 설치된 전선관 내의 절연도체 또는 단심 케이블',
-    standardCode: 'B1',
-    imagePath: 'assets/images/construction/59_B1.png',
-    allowedCableTypes: [CableCoreType.single],
-  ),
+      code: '59',
+      description: '석재벽 내부에 설치된 전선관 내의 절연도체 또는 단심 케이블',
+      standardCode: 'B1',
+      imagePath: 'assets/images/construction/59_B1.png',
+      allowedCableTypes: [CableCoreType.single]),
   ConstructionMethodData(
-    code: '60',
-    description: '석재 내부에 설치된 전선관 내의 다심 케이블',
-    standardCode: 'B2',
-    imagePath: 'assets/images/construction/60_B2.png',
-    allowedCableTypes: [CableCoreType.multi],
-  ),
+      code: '60',
+      description: '석재 내부에 설치된 전선관 내의 다심 케이블',
+      standardCode: 'B2',
+      imagePath: 'assets/images/construction/60_B2.png',
+      allowedCableTypes: [CableCoreType.multi]),
   ConstructionMethodData(
-    code: '70',
-    description: '지중 매설한 전선관 또는 케이블 덕트 내의 다심 케이블',
-    standardCode: 'D1',
-    imagePath: 'assets/images/construction/70_D1.png',
-    allowedCableTypes: [CableCoreType.multi],
-    installationType: InstallationType.ground,
-  ),
+      code: '70',
+      description: '지중 매설한 전선관 또는 케이블 덕트 내의 다심 케이블',
+      standardCode: 'D1',
+      imagePath: 'assets/images/construction/70_D1.png',
+      allowedCableTypes: [CableCoreType.multi],
+      installationType: InstallationType.ground),
   ConstructionMethodData(
-    code: '71',
-    description: '지중 매설한 전선관 또는 케이블 덕트 내의 단심 케이블',
-    standardCode: 'D1',
-    imagePath: 'assets/images/construction/71_D1.png',
-    allowedCableTypes: [CableCoreType.single],
-    installationType: InstallationType.ground,
-  ),
+      code: '71',
+      description: '지중 매설한 전선관 또는 케이블 덕트 내의 단심 케이블',
+      standardCode: 'D1',
+      imagePath: 'assets/images/construction/71_D1.png',
+      allowedCableTypes: [CableCoreType.single],
+      installationType: InstallationType.ground),
   ConstructionMethodData(
-    code: '72',
-    description: '지중에 직접 매설한 단심 또는 다심 케이블 (기계적 추가 보호가 없는 경우)',
-    standardCode: 'D2',
-    imagePath: 'assets/images/construction/72_D2.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-    installationType: InstallationType.ground,
-  ),
+      code: '72',
+      description: '지중에 직접 매설한 단심 또는 다심 케이블 (기계적 추가 보호가 없는 경우)',
+      standardCode: 'D2',
+      imagePath: 'assets/images/construction/72_D2.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
+      installationType: InstallationType.ground),
   ConstructionMethodData(
-    code: '73',
-    description: '지중에 직접 매설한 단심 또는 다심 외장 케이블 (기계적 추가 보호가 있는 경우)',
-    standardCode: 'D2',
-    imagePath: 'assets/images/construction/73_D2.png',
-    allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
-    installationType: InstallationType.ground,
-  ),
+      code: '73',
+      description: '지중에 직접 매설한 단심 또는 다심 외장 케이블 (기계적 추가 보호가 있는 경우)',
+      standardCode: 'D2',
+      imagePath: 'assets/images/construction/73_D2.png',
+      allowedCableTypes: [CableCoreType.single, CableCoreType.multi],
+      installationType: InstallationType.ground),
 ];
 
 // ==========================================
@@ -447,7 +388,7 @@ const Map<InsulationType, double> kCableMaterialCoefficients = {
 // 3. 주위 온도 보정 계수 (Table 35)
 // ==========================================
 const Map<InsulationType, Map<InstallationType, Map<int, double>>>
-kTempCorrectionFactors = {
+    kTempCorrectionFactors = {
   InsulationType.pvc: {
     InstallationType.air: {
       10: 1.22,
@@ -460,7 +401,7 @@ kTempCorrectionFactors = {
       45: 0.79,
       50: 0.71,
       55: 0.61,
-      60: 0.50,
+      60: 0.50
     },
     InstallationType.ground: {
       10: 1.10,
@@ -473,8 +414,8 @@ kTempCorrectionFactors = {
       45: 0.71,
       50: 0.63,
       55: 0.55,
-      60: 0.45,
-    },
+      60: 0.45
+    }
   },
   InsulationType.xlpe: {
     InstallationType.air: {
@@ -492,7 +433,7 @@ kTempCorrectionFactors = {
       65: 0.65,
       70: 0.58,
       75: 0.50,
-      80: 0.41,
+      80: 0.41
     },
     InstallationType.ground: {
       10: 1.07,
@@ -509,9 +450,9 @@ kTempCorrectionFactors = {
       65: 0.60,
       70: 0.53,
       75: 0.46,
-      80: 0.38,
-    },
-  },
+      80: 0.38
+    }
+  }
 };
 
 // ==========================================
@@ -527,7 +468,7 @@ const Map<String, Map<int, double>> kGroupingCorrectionFactors = {
     6: 0.73,
     7: 0.73,
     8: 0.72,
-    9: 0.72,
+    9: 0.72
   },
   'Embedded': {
     1: 1.00,
@@ -541,7 +482,7 @@ const Map<String, Map<int, double>> kGroupingCorrectionFactors = {
     9: 0.50,
     12: 0.45,
     16: 0.41,
-    20: 0.38,
+    20: 0.38
   },
   'Surface': {
     1: 1.00,
@@ -552,7 +493,7 @@ const Map<String, Map<int, double>> kGroupingCorrectionFactors = {
     6: 0.72,
     7: 0.72,
     8: 0.71,
-    9: 0.70,
+    9: 0.70
   },
   'GroundDuct': {
     1: 1.00,
@@ -566,7 +507,7 @@ const Map<String, Map<int, double>> kGroupingCorrectionFactors = {
     9: 0.52,
     10: 0.49,
     11: 0.47,
-    12: 0.45,
+    12: 0.45
   },
   'GroundDirect': {
     1: 1.00,
@@ -577,14 +518,15 @@ const Map<String, Map<int, double>> kGroupingCorrectionFactors = {
     6: 0.50,
     7: 0.45,
     8: 0.43,
-    9: 0.41,
-  },
+    9: 0.41
+  }
 };
 
 // ==========================================
 // 5. 표준 데이터 (규격, 정격)
 // ==========================================
 const List<double> kStandardCableSizes = [
+  1.5,
   2.5,
   4,
   6,
@@ -602,7 +544,7 @@ const List<double> kStandardCableSizes = [
   300,
   400,
   500,
-  630,
+  630
 ];
 
 const List<int> kResidentialBreakerRatings = [
@@ -615,7 +557,7 @@ const List<int> kResidentialBreakerRatings = [
   50,
   60,
   75,
-  100,
+  100
 ];
 
 const List<int> kIndustrialBreakerRatings = [
@@ -637,7 +579,7 @@ const List<int> kIndustrialBreakerRatings = [
   350,
   400,
   500,
-  600,
+  600
 ];
 
 const List<int> kFuseRatings = [
@@ -658,7 +600,7 @@ const List<int> kFuseRatings = [
   315,
   400,
   500,
-  630,
+  630
 ];
 
 const List<int> kConduitSizes = [16, 22, 28, 36, 42, 54, 70, 82, 100];
@@ -786,9 +728,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 17.5, '3': 16},
         'C': {'2': 20, '3': 18},
         'D1': {'2': 29, '3': 22},
-        'D2': {'2': 20, '3': 18},
-      },
-    },
+        'D2': {'2': 20, '3': 18}
+      }
+    }
   },
   2.5: {
     'r': {ConductorType.copper: 7.41, ConductorType.aluminum: 12.1},
@@ -811,9 +753,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 24, '3': 22},
         'C': {'2': 28, '3': 24},
         'D1': {'2': 39, '3': 30},
-        'D2': {'2': 25, '3': 23},
-      },
-    },
+        'D2': {'2': 25, '3': 23}
+      }
+    }
   },
   4: {
     'r': {ConductorType.copper: 4.61, ConductorType.aluminum: 7.41},
@@ -836,9 +778,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 31, '3': 28},
         'C': {'2': 37, '3': 32},
         'D1': {'2': 50, '3': 40},
-        'D2': {'2': 33, '3': 29},
-      },
-    },
+        'D2': {'2': 33, '3': 29}
+      }
+    }
   },
   6: {
     'r': {ConductorType.copper: 3.08, ConductorType.aluminum: 4.91},
@@ -861,9 +803,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 39, '3': 36},
         'C': {'2': 47, '3': 41},
         'D1': {'2': 63, '3': 51},
-        'D2': {'2': 41, '3': 36},
-      },
-    },
+        'D2': {'2': 41, '3': 36}
+      }
+    }
   },
   10: {
     'r': {ConductorType.copper: 1.83, ConductorType.aluminum: 2.93},
@@ -886,9 +828,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 53, '3': 49},
         'C': {'2': 65, '3': 56},
         'D1': {'2': 85, '3': 69},
-        'D2': {'2': 57, '3': 49},
-      },
-    },
+        'D2': {'2': 57, '3': 49}
+      }
+    }
   },
   16: {
     'r': {ConductorType.copper: 1.15, ConductorType.aluminum: 1.83},
@@ -911,9 +853,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 70, '3': 63},
         'C': {'2': 86, '3': 75},
         'D1': {'2': 112, '3': 91},
-        'D2': {'2': 75, '3': 65},
-      },
-    },
+        'D2': {'2': 75, '3': 65}
+      }
+    }
   },
   25: {
     'r': {ConductorType.copper: 0.727, ConductorType.aluminum: 1.15},
@@ -938,9 +880,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 92, '3': 82},
         'C': {'2': 111, '3': 96},
         'D1': {'2': 145, '3': 118},
-        'D2': {'2': 96, '3': 83},
-      },
-    },
+        'D2': {'2': 96, '3': 83}
+      }
+    }
   },
   35: {
     'r': {ConductorType.copper: 0.524, ConductorType.aluminum: 0.868},
@@ -965,9 +907,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 114, '3': 101},
         'C': {'2': 137, '3': 119},
         'D1': {'2': 177, '3': 144},
-        'D2': {'2': 117, '3': 101},
-      },
-    },
+        'D2': {'2': 117, '3': 101}
+      }
+    }
   },
   50: {
     'r': {ConductorType.copper: 0.387, ConductorType.aluminum: 0.641},
@@ -992,9 +934,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 138, '3': 121},
         'C': {'2': 165, '3': 143},
         'D1': {'2': 212, '3': 172},
-        'D2': {'2': 138, '3': 119},
-      },
-    },
+        'D2': {'2': 138, '3': 119}
+      }
+    }
   },
   70: {
     'r': {ConductorType.copper: 0.268, ConductorType.aluminum: 0.443},
@@ -1019,9 +961,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 175, '3': 153},
         'C': {'2': 210, '3': 182},
         'D1': {'2': 266, '3': 215},
-        'D2': {'2': 173, '3': 147},
-      },
-    },
+        'D2': {'2': 173, '3': 147}
+      }
+    }
   },
   95: {
     'r': {ConductorType.copper: 0.193, ConductorType.aluminum: 0.32},
@@ -1046,9 +988,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'B2': {'2': 210, '3': 184},
         'C': {'2': 253, '3': 219},
         'D1': {'2': 318, '3': 256},
-        'D2': {'2': 205, '3': 176},
-      },
-    },
+        'D2': {'2': 205, '3': 176}
+      }
+    }
   },
   120: {
     'r': {ConductorType.copper: 0.153, ConductorType.aluminum: 0.253},
@@ -1076,9 +1018,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'F': {'3': 292},
         'G': {'3': 374},
         'D1': {'2': 365, '3': 294},
-        'D2': {'2': 235, '3': 201},
-      },
-    },
+        'D2': {'2': 235, '3': 201}
+      }
+    }
   },
   150: {
     'r': {ConductorType.copper: 0.124, ConductorType.aluminum: 0.206},
@@ -1106,9 +1048,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'F': {'3': 341},
         'G': {'3': 437},
         'D1': {'2': 416, '3': 335},
-        'D2': {'2': 266, '3': 228},
-      },
-    },
+        'D2': {'2': 266, '3': 228}
+      }
+    }
   },
   185: {
     'r': {ConductorType.copper: 0.0991, ConductorType.aluminum: 0.164},
@@ -1136,9 +1078,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'F': {'3': 386},
         'G': {'3': 494},
         'D1': {'2': 478, '3': 383},
-        'D2': {'2': 303, '3': 260},
-      },
-    },
+        'D2': {'2': 303, '3': 260}
+      }
+    }
   },
   240: {
     'r': {ConductorType.copper: 0.0754, ConductorType.aluminum: 0.125},
@@ -1166,9 +1108,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'F': {'3': 457},
         'G': {'3': 585},
         'D1': {'2': 559, '3': 447},
-        'D2': {'2': 356, '3': 304},
-      },
-    },
+        'D2': {'2': 356, '3': 304}
+      }
+    }
   },
   300: {
     'r': {ConductorType.copper: 0.0601, ConductorType.aluminum: 0.1},
@@ -1196,9 +1138,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'F': {'3': 530},
         'G': {'3': 679},
         'D1': {'2': 644, '3': 514},
-        'D2': {'2': 411, '3': 351},
-      },
-    },
+        'D2': {'2': 411, '3': 351}
+      }
+    }
   },
   400: {
     'r': {ConductorType.copper: 0.047, ConductorType.aluminum: 0.0778},
@@ -1210,9 +1152,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'D2': {'2': 578, '3': 493},
       },
       InsulationType.pvc: {
-        'D2': {'2': 484, '3': 413},
-      },
-    },
+        'D2': {'2': 484, '3': 413}
+      }
+    }
   },
   500: {
     'r': {ConductorType.copper: 0.0366, ConductorType.aluminum: 0.0605},
@@ -1224,9 +1166,9 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'D2': {'2': 668, '3': 570},
       },
       InsulationType.pvc: {
-        'D2': {'2': 558, '3': 477},
-      },
-    },
+        'D2': {'2': 558, '3': 477}
+      }
+    }
   },
   630: {
     'r': {ConductorType.copper: 0.0283, ConductorType.aluminum: 0.0469},
@@ -1238,8 +1180,31 @@ final Map<double, Map<String, dynamic>> kCableSpecs = {
         'D2': {'2': 780, '3': 665},
       },
       InsulationType.pvc: {
-        'D2': {'2': 648, '3': 553},
-      },
-    },
-  },
+        'D2': {'2': 648, '3': 553}
+      }
+    }
+  }
+};
+
+// ====================================================
+// [데이터셋] IEC 60364 케이블 임피던스 (단위: Ω/km)
+// Key: Cable Size (mm²), Value: [Resistance, Reactance]
+// ====================================================
+const Map<double, List<double>> kIecCableImpedanceData = {
+  1.5: [15.4, 0.112],
+  2.5: [9.05, 0.106],
+  4.0: [5.61, 0.101],
+  6.0: [3.75, 0.097],
+  10.0: [2.23, 0.092],
+  16.0: [1.41, 0.088],
+  25.0: [0.889, 0.086],
+  35.0: [0.641, 0.084],
+  50.0: [0.473, 0.083],
+  70.0: [0.328, 0.081],
+  95.0: [0.236, 0.080],
+  120.0: [0.188, 0.080],
+  150.0: [0.153, 0.080],
+  185.0: [0.123, 0.080],
+  240.0: [0.094, 0.079],
+  300.0: [0.076, 0.079]
 };

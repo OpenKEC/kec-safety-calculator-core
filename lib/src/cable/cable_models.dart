@@ -26,6 +26,9 @@ class CableCapacityParams {
   /// 병렬 도체 수 (기본 1)
   final int parallelConductors;
 
+  /// 단심 케이블 여부 (True: 다심 아님)
+  final bool isSingleCore;
+
   const CableCapacityParams({
     this.cableSizeSq,
     required this.insulationType,
@@ -35,6 +38,7 @@ class CableCapacityParams {
     this.numberOfCircuits = 1,
     this.conductorCount = 3, // 기본 3상 가정
     this.parallelConductors = 1,
+    this.isSingleCore = false,
   });
 }
 

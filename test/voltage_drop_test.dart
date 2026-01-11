@@ -5,7 +5,7 @@ void main() {
   group('3. 전압강하 계산 (Voltage Drop)', () {
     test('Single Phase Calculation', () {
       // 단상 220V, 부하 50A, 거리 100m, 16sq, 구리
-      final params = const VoltageDropParams(
+      final params = VoltageDropParams(
         systemVoltage: 220,
         loadCurrent: 50,
         lengthInMeters: 100,
@@ -28,7 +28,7 @@ void main() {
 
     test('Three Phase Calculation', () {
       // 3상 380V, 부하 50A, 거리 100m, 16sq
-      final params = const VoltageDropParams(
+      final params = VoltageDropParams(
         systemVoltage: 380,
         loadCurrent: 50,
         lengthInMeters: 100,

@@ -13,22 +13,10 @@ class BreakerCalculator {
     required DesignCurrentParams params,
     required BreakerType breakerType,
   }) {
-    // 1. 설계 전류 (Ib) 계산
-    // P = V * I * cosΘ (단상), P = √3 * V * I * cosΘ (3상)
-    // I = P / (V * cosΘ) ...
-
-    double powerInWatts = params.capacity;
-    // kW input -> convert to W (Assuming input is already raw value? No unit says kW/kVA)
-    // Legacy logic: input * 1000
-    powerInWatts = params.capacity * 1000.0;
-
-    // kVA인 경우 역률을 1.0으로 간주하고 계산 (P_apparent = P_active / pf 에서 P_active = P_apparent * pf 인데...)
-    // Legacy logic: if kVA, powerFactor = 1.0 effectively for the divisor
+    double powerInWatts = params.capacity * 1000.0;
     double appliedPowerFactor = params.powerFactor;
     if (params.capacityUnit == 'kVA') {
       appliedPowerFactor = 1.0;
-      // Note: If input is kVA, then I = P(VA) / V.
-      // If we use W formula with PF=1, I = Watts / Voltage. Correct.
     }
 
     double designCurrent;
@@ -49,7 +37,6 @@ class BreakerCalculator {
     }
 
     // 3. 차단기 정격 선정
-    // 표준 차단기 목록 조회
     List<int> standardBreakers;
     switch (breakerType) {
       case BreakerType.residential:
@@ -63,7 +50,6 @@ class BreakerCalculator {
         break;
     }
 
-    // Target 이상인 첫 번째 규격 선정
     final int selectedRating = standardBreakers.firstWhere(
         (r) => r >= targetCurrent,
         orElse: () => standardBreakers.last);
@@ -76,15 +62,12 @@ class BreakerCalculator {
   }
 
   /// 단락 전류 시 케이블 최소 굵기 계산 (KEC 234.5)
-  /// 공식: S >= (I * √t) / k
   static ShortCircuitResult checkShortCircuitSafety({
     required ShortCircuitParams params,
     double? checkCableSizeSq,
   }) {
-    // 1. K 계수 조회
     final double k = kCableMaterialCoefficients[params.insulationType] ?? 143.0;
 
-    // 2. 최소 굵기 계산
     // iSquareT = (I_kA * 1000)^2 * t
     final iSquareT =
         pow(params.shortCircuitCurrentKa * 1000.0, 2) * params.durationSeconds;
@@ -103,26 +86,57 @@ class BreakerCalculator {
   }
 
   /// 변압기 기준 단락전류 계산 (간이식)
-  ///
-  /// [kva]: 변압기 용량 (kVA)
-  /// [voltage]: 전압 (V)
-  /// [impedancePercent]: 퍼센트 임피던스 (%Z)
-  ///
-  /// 반환값: 단락전류 (kA)
   static double calculateShortCircuitCurrent({
     required double kva,
     required double voltage,
     required double impedancePercent,
   }) {
     if (impedancePercent <= 0) return 0.0;
-
-    // 정격 전류 In = P / (√3 * V)
     final double inCurrent = (kva * 1000) / (sqrt(3) * voltage);
-
-    // 단락 전류 Is = (100 / %Z) * In
     final double isCurrent = (100 / impedancePercent) * inCurrent;
-
-    // kA 단위로 반환
     return isCurrent / 1000.0;
+  }
+
+  /// [New Feature] 선로 임피던스를 고려한 말단 단락전류 감소 계산
+  /// 
+  /// [startKA]: 시작점 단락전류 (kA)
+  /// [length]: 선로 길이 (m)
+  /// [sq]: 케이블 굵기 (mm²)
+  static double calculateReducedShortCircuitCurrent({
+    required double startKA,
+    required double length,
+    required double sq,
+  }) {
+    // 임피던스 데이터(IEC) 조회
+    if (!kIecCableImpedanceData.containsKey(sq)) return startKA;
+    
+    double r = kIecCableImpedanceData[sq]![0];
+    double x = kIecCableImpedanceData[sq]![1];
+    
+    // 단순화된 계산을 위해 상전압 기준 (220V)
+    double voltagePhase = 220.0;
+    
+    double startAmps = startKA * 1000;
+    if (startAmps == 0) return 0.0;
+    
+    // Z_source (전원측 임피던스)
+    double zSource = voltagePhase / startAmps;
+    
+    // Z_line (선로 임피던스: 단방향 or 왕복? KEC 핸드북은 왕복 고려하기도 함. 여기서는 편도 기준 R,X * Line으로 근사)
+    // Note: ver1.1.1 로직은 length/1000 * r 입니다.
+    double rLine = r * (length / 1000);
+    double xLine = x * (length / 1000);
+    
+    // 전체 임피던스 합성
+    // Z_total = sqrt( (R_line)^2 + (X_source + X_line)^2 )  (R_source는 무시 또는 Z_source를 X로 간주)
+    // 일반적인 간이 계산: Z_source는 리액턴스 성분이 지배적이라 가정.
+    double xTotal = zSource + xLine;
+    double rTotal = rLine;
+    
+    double zTotal = sqrt((rTotal * rTotal) + (xTotal * xTotal));
+    
+    if (zTotal == 0) return startKA;
+
+    return (voltagePhase / zTotal) / 1000.0; // kA
   }
 }

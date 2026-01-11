@@ -1,29 +1,31 @@
-import 'dart:math';
-
+﻿import 'dart:math';
 import 'common/constants.dart';
 import 'common/enums.dart';
-import 'integrated_models.dart';
-import 'cable/cable_capacity_calculator.dart';
+
 import 'cable/cable_models.dart';
-import 'voltage_drop/voltage_drop_calculator.dart';
+import 'cable/cable_capacity_calculator.dart';
+
 import 'voltage_drop/voltage_drop_model.dart';
-import 'protection/breaker_calculator.dart';
+import 'voltage_drop/voltage_drop_calculator.dart';
+
 import 'protection/protection_models.dart';
+import 'protection/breaker_calculator.dart';
 
-/// KEC 6단계 통합 계산 프로세스를 수행하는 서비스
+import 'integrated_models.dart';
+
+/// KEC ?듯빀 怨꾩궛 ?쒕퉬??(Integrated Service)
 class IntegratedKecService {
-  static const double _allowedVoltageDropPercent = 3.0;
-
-  /// 통합 계산 실행
-  static Future<KecCalculationResult> calculate(
-      KecCalculationInput input) async {
+  /// ?꾩껜 怨꾩궛 ?섑뻾
+  static Future<KecCalculationResult> calculate(KecCalculationInput input) async {
     final reasoning = <String>[];
 
+    // 1. 湲곕낯 ?뺣낫 濡쒓퉭
     reasoning.add(
-        '[기본 조건] 도체:${input.conductorType.name}, 절연체:${input.insulationType.name}, 보호장치:${input.breakerType.name}, 병렬도체수:${input.parallelConductors}가닥, 회로수:${input.numberOfCircuits}');
-
-    // Step 1: 설계전류 (Ib) 계산
-    final breakerParams = DesignCurrentParams(
+        '[湲곕낯] ${input.wiringMethod}, ${input.voltage}V, ${input.loadCapacity}${input.capacityUnit}, '
+        'L=${input.cableLength}m, ${input.insulationType}, ${input.conductorType}, ${input.constructionMethodCode}');
+    
+    // -- Step 1 & 2: ?ㅺ퀎?꾨쪟 諛?李⑤떒湲??좎젙 --
+    final dcParams = DesignCurrentParams(
       capacity: input.loadCapacity,
       capacityUnit: input.capacityUnit,
       systemVoltage: input.voltage,
@@ -33,65 +35,69 @@ class IntegratedKecService {
       motorStartingMultiplier: input.motorStartingMultiplier,
     );
 
-    final breakerSelection = BreakerCalculator.selectBreaker(
-      params: breakerParams,
-      breakerType: input.breakerType,
-    );
+    int breaker = 0;
+    double ib = 0;
 
-    final ib = breakerSelection.designCurrent;
-    final targetBreakerCurrent = breakerSelection.targetCurrent;
-    final breaker = breakerSelection.selectedBreakerRating;
-
-    reasoning.add('[Step 1] 설계전류(Ib) 계산: ${ib.toStringAsFixed(2)} A');
-    if (input.isMotor) {
-      reasoning.add(
-          '[Step 2.0] 전동기 부하 여유율 적용: ${targetBreakerCurrent.toStringAsFixed(2)} A 기준 차단기 선정');
+    if (input.isBreakerMode) {
+      breaker = input.inputBreakerA ?? 0;
+      ib = 0; 
+      reasoning.add('[Step 1~2] 李⑤떒湲??곗꽑 紐⑤뱶: ${breaker}A ?좎젙 (?ㅺ퀎?꾨쪟 ?앸왂)');
+    } else {
+      final breakerResult = BreakerCalculator.selectBreaker(
+        params: dcParams,
+        breakerType: input.breakerType,
+      );
+      ib = breakerResult.designCurrent;
+      breaker = breakerResult.selectedBreakerRating;
+      reasoning.add('[Step 1] ?ㅺ퀎?꾨쪟(Ib): ${ib.toStringAsFixed(2)}A');
+      reasoning.add('[Step 2] 李⑤떒湲??좎젙(In): ${breaker}A');
     }
-    reasoning.add('[Step 2.1] 차단기 선정: $breaker A 선정');
 
-    // 공사방법 데이터 조회
-    final constructionMethod = kConstructionMethods.firstWhere(
-      (m) => m.code == input.constructionMethodCode,
-      orElse: () => kConstructionMethods.first,
-    );
-
-    // Step 3: 설계전류 기준 굵기 (S_B)
+    // -- Step 3: ?덉슜?꾨쪟 湲곗? 耳?대툝 ?좎젙 (S_B, S_CB) --
     final baseCableParams = CableCapacityParams(
-      cableSizeSq: 1.5, // Dummy
       insulationType: input.insulationType,
       conductorType: input.conductorType,
-      constructionCode: constructionMethod.standardCode,
+      constructionCode: input.constructionMethodCode,
       ambientTemperature: input.ambientTemperature,
       numberOfCircuits: input.numberOfCircuits,
       conductorCount: (input.wiringMethod == WiringType.singlePhase) ? 2 : 3,
       parallelConductors: input.parallelConductors,
+      isSingleCore: input.isSingleCore,
     );
 
-    final resForIb = CableCapacityCalculator.selectMinCableSize(
-      targetCurrent: ib,
-      params: baseCableParams,
-    );
-    final cableForIb = resForIb.cableSizeSq;
-    reasoning.add(
-        '[Step 3] 설계전류 기준(S_B) 결과: ${cableForIb}mm² (허용전류 ${resForIb.adjustedIz.toStringAsFixed(1)}A >= Ib ${ib.toStringAsFixed(1)}A)');
+    // 3.1 S_B (?ㅺ퀎?꾨쪟 湲곗? 理쒖냼 援듦린)
+    double cableForIb = 0;
+    if (!input.isBreakerMode) {
+      final resIb = CableCapacityCalculator.selectMinCableSize(
+        targetCurrent: ib,
+        params: baseCableParams,
+      );
+      cableForIb = resIb.cableSizeSq;
+      reasoning.add(
+          '[Step 3.1] ?ㅺ퀎?꾨쪟 湲곗?(S_B): ${cableForIb}mm짼 (?덉슜?꾨쪟 ${resIb.adjustedIz.toStringAsFixed(1)}A >= ${ib.toStringAsFixed(1)}A)');
+    }
 
-    // Step 4: 차단기 기준 굵기 (S_CB)
-    final resForBreaker = CableCapacityCalculator.selectMinCableSize(
+    // 3.2 S_CB (李⑤떒湲??뺢꺽 湲곗? 理쒖냼 援듦린 -> 怨쇰???蹂댄샇)
+    final resCb = CableCapacityCalculator.selectMinCableSize(
       targetCurrent: breaker.toDouble(),
       params: baseCableParams,
     );
-    final cableForBreaker = resForBreaker.cableSizeSq;
+    final cableForBreaker = resCb.cableSizeSq;
     reasoning.add(
-        '[Step 4] 차단기 정격 기준(S_CB) 결과: ${cableForBreaker}mm² (허용전류 ${resForBreaker.adjustedIz.toStringAsFixed(1)}A >= In ${breaker}A)');
+        '[Step 3.2] 李⑤떒湲?湲곗?(S_CB): ${cableForBreaker}mm짼 (?덉슜?꾨쪟 ${resCb.adjustedIz.toStringAsFixed(1)}A >= ${breaker}A)');
 
-    // Step 5: 전압강하 검토 (S_VD%)
-    double cableForVoltageDrop = cableForBreaker;
+    // -- Step 5: ?꾩븬媛뺥븯 寃??--
+    final currentForVd = input.isBreakerMode ? breaker.toDouble() : ib;
+    
+    double cableForVoltageDrop = 0;
+    final maxAllowedDrop = 3.0; // 3%
+
     for (final size in kStandardCableSizes) {
       if (size < cableForBreaker) continue;
 
       final vdParams = VoltageDropParams(
         lengthInMeters: input.cableLength,
-        loadCurrent: ib,
+        loadCurrent: currentForVd,
         cableSizeSq: size,
         systemVoltage: input.voltage,
         wiringType: input.wiringMethod,
@@ -99,20 +105,17 @@ class IntegratedKecService {
         conductorType: input.conductorType,
         parallelConductors: input.parallelConductors,
       );
-
+      
       final vdResult = VoltageDropCalculator.calculate(vdParams);
-      if (vdResult.dropPercent <= _allowedVoltageDropPercent) {
+      if (vdResult.dropPercent <= maxAllowedDrop) {
         cableForVoltageDrop = size;
         reasoning.add(
-            '[Step 5] 전압강하 검토(${size}mm²): ${vdResult.dropPercent.toStringAsFixed(2)}% <= $_allowedVoltageDropPercent% 만족');
+            '[Step 5] ?꾩븬媛뺥븯 寃??S_VD): ${size}mm짼 (${vdResult.dropPercent.toStringAsFixed(2)}% <= $maxAllowedDrop%)');
         break;
-      } else {
-        reasoning.add(
-            '[Step 5] 전압강하 검토(${size}mm²): ${vdResult.dropPercent.toStringAsFixed(2)}% 초과 -> 규격 상향');
       }
     }
 
-    // Step 6: 전동기 기동 및 단락전류 검토
+    // Step 6: ?꾨룞湲?湲곕룞 諛??⑤씫?꾨쪟 寃??
     double cableForMotorThermal = 0;
     double cableForMotorVoltageDrop = 0;
 
@@ -127,9 +130,9 @@ class IntegratedKecService {
       );
       cableForMotorThermal = resForMotorStart.cableSizeSq;
       reasoning.add(
-          '[Step 6.1] 기동 열적 내력(S_MSTH): ${cableForMotorThermal}mm² (허용전류 ${resForMotorStart.adjustedIz.toStringAsFixed(1)}A >= 기동전류 ${startingCurrent.toStringAsFixed(1)}A)');
+          '[Step 6.1] 湲곕룞 ?댁쟻 ?대젰(S_MSTH): ${cableForMotorThermal}mm짼 (?덉슜?꾨쪟 ${resForMotorStart.adjustedIz.toStringAsFixed(1)}A >= 湲곕룞?꾨쪟 ${startingCurrent.toStringAsFixed(1)}A)');
 
-      // S_MSVD% (기동 시 전압강하 15% 이내)
+      // S_MSVD% (湲곕룞 ???꾩븬媛뺥븯 15% ?대궡)
       for (final size in kStandardCableSizes) {
         if (size < cableForMotorThermal) continue;
 
@@ -139,7 +142,7 @@ class IntegratedKecService {
           cableSizeSq: size,
           systemVoltage: input.voltage,
           wiringType: input.wiringMethod,
-          powerFactor: 0.4, // 기동 시 역률 0.4 가정 (Original Logic)
+          powerFactor: 0.4, 
           conductorType: input.conductorType,
           parallelConductors: input.parallelConductors,
         );
@@ -148,7 +151,7 @@ class IntegratedKecService {
         if (vdResult.dropPercent <= 15.0) {
           cableForMotorVoltageDrop = size;
           reasoning.add(
-              '[Step 6.2] 기동 전압강하(S_MSVD): ${size}mm² (${vdResult.dropPercent.toStringAsFixed(2)}% <= 15% 만족)');
+              '[Step 6.2] 湲곕룞 ?꾩븬媛뺥븯(S_MSVD): ${size}mm짼 (${vdResult.dropPercent.toStringAsFixed(2)}% <= 15% 留뚯”)');
           break;
         }
       }
@@ -157,11 +160,28 @@ class IntegratedKecService {
     double cableForShortCircuit = 0;
     double rawMinSizeForShortCircuit = 0;
     double kFactor = 143.0;
+    double? reducedKA;
 
     if (input.shortCircuitCurrent != null &&
         input.shortCircuitDuration != null) {
+      
+      double currentMaxSq = [
+        cableForIb,
+        cableForBreaker,
+        cableForVoltageDrop,
+        cableForMotorThermal,
+        cableForMotorVoltageDrop
+      ].reduce(max);
+      if (currentMaxSq == 0) currentMaxSq = 1.5; 
+
+      reducedKA = BreakerCalculator.calculateReducedShortCircuitCurrent(
+        startKA: input.shortCircuitCurrent!,
+        length: input.cableLength,
+        sq: currentMaxSq
+      );
+      
       final scParams = ShortCircuitParams(
-        shortCircuitCurrentKa: input.shortCircuitCurrent!,
+        shortCircuitCurrentKa: reducedKA, 
         durationSeconds: input.shortCircuitDuration!,
         insulationType: input.insulationType,
       );
@@ -171,17 +191,19 @@ class IntegratedKecService {
       rawMinSizeForShortCircuit = scResult.minCableSizeSq;
       kFactor = scResult.kFactor;
 
+      reasoning.add('[Step 6.3] ?⑤씫?꾨쪟 寃??S_SC): ?낅젰 ${input.shortCircuitCurrent}kA -> 留먮떒 ${reducedKA.toStringAsFixed(2)}kA (媛먯뇙?곸슜)');
+
       for (final size in kStandardCableSizes) {
         if (size >= rawMinSizeForShortCircuit) {
           cableForShortCircuit = size;
           reasoning.add(
-              '[Step 6.3] 단락전류 내력(S_SC): ${size}mm² (최소굵기 ${rawMinSizeForShortCircuit.toStringAsFixed(2)}mm² 대비 적합)');
+              '  ??理쒖냼援듦린 ${rawMinSizeForShortCircuit.toStringAsFixed(2)}mm짼 ?鍮?-> ?좎젙: ${size}mm짼');
           break;
         }
       }
     }
 
-    // 최종 굵기 선정
+    // 理쒖쥌 援듦린 ?좎젙
     final finalCableSize = [
       cableForIb,
       cableForBreaker,
@@ -192,7 +214,7 @@ class IntegratedKecService {
     ].reduce(max);
 
     reasoning.add(
-        '[Step 6] 최종 굵기 선정: 모든 조건을 만족하는 최대 굵기 ${finalCableSize}mm²를 최종 선정합니다.');
+        '[Step 6] 理쒖쥌 援듦린 ?좎젙: 紐⑤뱺 議곌굔??留뚯”?섎뒗 理쒕? 援듦린 ${finalCableSize}mm짼瑜?理쒖쥌 ?좎젙?⑸땲??');
 
     return KecCalculationResult(
       finalCableSize: finalCableSize,
@@ -202,13 +224,14 @@ class IntegratedKecService {
       shortCircuitDuration: input.shortCircuitDuration ?? 0.0,
       minCableSizeForShortCircuit: rawMinSizeForShortCircuit,
       kFactor: kFactor,
+      reducedShortCircuitCurrent: reducedKA,
       detailResults: {
-        'S_B (설계전류)': cableForIb,
-        'S_CB (차단기)': cableForBreaker,
-        'S_VD% (전압강하)': cableForVoltageDrop,
-        'S_SC (단락강도)': cableForShortCircuit > 0 ? cableForShortCircuit : 'N/A',
-        'S_MSTH (기동열적)': input.isMotor ? cableForMotorThermal : 'N/A',
-        'S_MSVD% (기동전압)': input.isMotor ? cableForMotorVoltageDrop : 'N/A',
+        'S_B (?ㅺ퀎?꾨쪟)': cableForIb,
+        'S_CB (李⑤떒湲?': cableForBreaker,
+        'S_VD% (?꾩븬媛뺥븯)': cableForVoltageDrop,
+        'S_SC (?⑤씫媛뺣룄)': cableForShortCircuit > 0 ? cableForShortCircuit : 'N/A',
+        'S_MSTH (湲곕룞?댁쟻)': input.isMotor ? cableForMotorThermal : 'N/A',
+        'S_MSVD% (湲곕룞?꾩븬)': input.isMotor ? cableForMotorVoltageDrop : 'N/A',
       },
     );
   }
