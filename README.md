@@ -118,4 +118,4 @@ KEC 규정의 해석, 수식 오류 수정, 새로운 계산 모듈 제안 등 �
 ---
 Copyright © 2025 **OpenKEC Lab**. Developed by **LeeTech**.
 
-![Visitors](https://visitor-badge.laobi.icu/badge?page_id=OpenKEC.kec-safety-calculator-core)
+[![Hits](https://hits.sh/github.com/OpenKEC/kec-safety-calculator-core.svg)](https://hits.sh/github.com/OpenKEC/kec-safety-calculator-core/)
