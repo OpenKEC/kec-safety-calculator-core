@@ -110,7 +110,6 @@ KEC 규정의 해석, 수식 오류 수정, 새로운 계산 모듈 제안 등 �
 
 이 프로젝트는 **MIT License** 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참고하십시오.
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FOpenKEC%2Fkec-safety-calculator-core&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 **면책 조항 (Disclaimer):**
 이 소프트웨어의 계산 결과는 설계 참고용입니다.   
@@ -118,3 +117,5 @@ KEC 규정의 해석, 수식 오류 수정, 새로운 계산 모듈 제안 등 �
 
 ---
 Copyright © 2025 **OpenKEC Lab**. Developed by **LeeTech**.
+
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FOpenKEC%2Fkec-safety-calculator-core&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
